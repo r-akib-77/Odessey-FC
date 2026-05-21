@@ -10,6 +10,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+export const runtime = "edge";
+
 // ==========================================
 // TYPE DEFINITION FOR INCOMING NEXT.JS ROUTE PROPS
 // ==========================================

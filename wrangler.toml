@@ -1,0 +1,8 @@
+name = "odessey-fc"
+compatibility_date = "2026-05-21"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "odessey-db" # REPLACE with your actual D1 database name
+database_id = "your-database-id" # REPLACE with your actual D1 database ID
