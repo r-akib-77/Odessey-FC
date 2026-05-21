@@ -9,7 +9,6 @@ import {
   Landmark,
   ShieldCheck,
 } from "lucide-react";
-import { dummyData } from "@/dummyData";
 
 // ==========================================
 // TYPE DEFINITION FOR INCOMING NEXT.JS ROUTE PROPS
@@ -25,8 +24,17 @@ export default async function BlogArticlePage({ params }: PageProps) {
   const resolvedParams = await params;
   const currentSlug = resolvedParams.slug;
 
-  // Search your imported dummyData array for a valid matching entry
-  const article = dummyData.find((item) => item.slug === currentSlug);
+  // Fetch article from Cloudflare D1
+  const db = (process.env as any).DB;
+  let article: any = null;
+
+  if (db) {
+    try {
+      article = await db.prepare("SELECT * FROM news WHERE slug = ?").bind(currentSlug).first();
+    } catch (error) {
+      console.error("Error fetching article from D1:", error);
+    }
+  }
 
   // If a matching entry is missing, trigger a standard 404 page framework
   if (!article) {

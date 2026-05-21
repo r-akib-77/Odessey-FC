@@ -1,19 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, ArrowUpRight, Trophy, Award, Newspaper } from "lucide-react";
-import { dummyData } from "@/dummyData";
+import { Calendar, ArrowUpRight, Trophy, Award, Newspaper, Loader2 } from "lucide-react";
 
 // Convert standard Next.js Link into a motion-enabled component
 const MotionLink = motion(Link);
 
-// ==========================================
-// 1. NEWS ARTICLES DATA ASSIGNMENT
-// ==========================================
-const NEWS_POSTS = dummyData;
+interface NewsPost {
+  id: number;
+  slug: string;
+  title: string;
+  desc: string;
+  date: string;
+  category: string;
+  image: string;
+  featured: boolean | number;
+}
 
 // ==========================================
 // 2. ANIMATION VARIANTS
@@ -36,10 +41,42 @@ const itemVariants: Variants = {
 };
 
 export default function NewsHub() {
+  const [newsPosts, setNewsPosts] = useState<NewsPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [hoveredPostId, setHoveredPostId] = useState<number | null>(null);
 
-  const featuredPost = NEWS_POSTS.find((post) => post.featured);
-  const regularPosts = NEWS_POSTS.filter((post) => !post.featured);
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch("/api/news");
+        if (res.ok) {
+          const data = await res.json();
+          setNewsPosts(data);
+        }
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  const featuredPost = newsPosts.find((post) => post.featured);
+  const regularPosts = newsPosts.filter((post) => !post.featured);
+
+  if (isLoading) {
+    return (
+      <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.88),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-10 h-10 animate-spin text-[#E9C349]" />
+        <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-500">
+          Loading Media Hub...
+        </span>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.88),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-3 sm:px-6 py-8 md:py-24 overflow-hidden relative">
@@ -207,7 +244,7 @@ export default function NewsHub() {
         </motion.div>
 
         {/* FALLBACK LOGIC */}
-        {NEWS_POSTS.length === 0 && (
+        {newsPosts.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { motion, Variants } from "framer-motion";
 import {
   PlusCircle,
@@ -13,9 +14,10 @@ import {
   Eye,
   Trash2,
   Lock,
+  LogOut,
+  Loader2,
 } from "lucide-react";
 import Image from "next/image";
-import { dummyData } from "@/dummyData";
 
 const panelVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
@@ -36,9 +38,17 @@ interface NewsFormState {
   featured: boolean;
 }
 
+interface NewsItem extends NewsFormState {
+  id: number;
+}
+
 export default function NewsAdminPanel() {
-  const [newsList, setNewsList] = useState(dummyData);
+  const router = useRouter();
+  const [newsList, setNewsList] = useState<NewsItem[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [formData, setFormData] = useState<NewsFormState>({
     title: "",
@@ -53,6 +63,25 @@ export default function NewsAdminPanel() {
     image: "",
     featured: false,
   });
+
+  const fetchNews = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/admin/news");
+      if (res.ok) {
+        const data = await res.json();
+        setNewsList(data);
+      }
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNews();
+  }, []);
 
   const generateSlug = (text: string): string => {
     return text
@@ -82,6 +111,7 @@ export default function NewsAdminPanel() {
     const files = e.target.files;
     if (files && files.length > 0) {
       const selectedFile = files[0];
+      setSelectedFile(selectedFile);
       const temporaryBlobUrl = URL.createObjectURL(selectedFile);
       setFormData((prev) => ({
         ...prev,
@@ -90,46 +120,108 @@ export default function NewsAdminPanel() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!formData.image) {
+    if (!selectedFile && !formData.image) {
       alert("Please choose a cover image file first.");
       return;
     }
 
-    const newPost = {
-      id: Date.now(),
-      ...formData,
-    };
+    try {
+      setIsSaving(true);
+      let imageUrl = formData.image;
 
-    let updatedList = [...newsList];
-    if (formData.featured) {
-      updatedList = updatedList.map((post) => ({ ...post, featured: false }));
+      // 1. Upload image if a new file is selected
+      if (selectedFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append("file", selectedFile);
+
+        const uploadRes = await fetch("/api/admin/upload", {
+          method: "POST",
+          body: uploadFormData,
+        });
+
+        if (!uploadRes.ok) {
+          throw new Error("Failed to upload image");
+        }
+
+        const uploadData = await uploadRes.json();
+        imageUrl = uploadData.url;
+      }
+
+      // 2. Submit news data
+      const res = await fetch("/api/admin/news", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          image: imageUrl,
+          featured: formData.featured ? 1 : 0,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to save news article");
+      }
+
+      setShowSuccess(true);
+      fetchNews();
+
+      setFormData({
+        title: "",
+        slug: "",
+        desc: "",
+        date: new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        category: "Sponsorship",
+        image: "",
+        featured: false,
+      });
+      setSelectedFile(null);
+
+      setTimeout(() => setShowSuccess(false), 4000);
+    } catch (error: any) {
+      console.error("Submit error:", error);
+      alert(error.message || "An unexpected error occurred");
+    } finally {
+      setIsSaving(false);
     }
-
-    setNewsList([newPost, ...updatedList]);
-    setShowSuccess(true);
-
-    setFormData({
-      title: "",
-      slug: "",
-      desc: "",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      category: "Sponsorship",
-      image: "",
-      featured: false,
-    });
-
-    setTimeout(() => setShowSuccess(false), 4000);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to remove this press release item?")) {
-      setNewsList(newsList.filter((item) => item.id !== id));
+      try {
+        const res = await fetch(`/api/admin/news/${id}`, {
+          method: "DELETE",
+        });
+        if (res.ok) {
+          fetchNews();
+        } else {
+          alert("Failed to delete the article");
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert("An error occurred while deleting");
+      }
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+      if (res.ok) {
+        router.push("/admin/login");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
     }
   };
 
@@ -149,11 +241,23 @@ export default function NewsAdminPanel() {
               NEWS MANAGEMENT CONTROL
             </h1>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-2.5 self-center sm:self-auto">
-            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
-            <span className="text-[10px] sm:text-xs font-mono font-bold text-gray-400">
-              STATUS: MOCK_MODE
-            </span>
+          <div className="flex items-center gap-3 self-center sm:self-auto">
+            <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-2.5">
+              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+              <span className="text-[10px] sm:text-xs font-mono font-bold text-gray-400">
+                STATUS: LIVE_D1_R2
+              </span>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-gray-400 hover:text-white transition-all flex items-center gap-2"
+              title="Logout"
+            >
+              <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline text-xs font-bold uppercase tracking-wider">
+                Logout
+              </span>
+            </button>
           </div>
         </div>
 
@@ -344,9 +448,16 @@ export default function NewsAdminPanel() {
 
             <button
               type="submit"
-              className="w-full text-black font-black uppercase italic tracking-widest text-xs sm:text-sm py-3 sm:py-3.5 rounded-lg bg-[#E9C349] hover:bg-[#FFF9D2] transition-colors duration-300 shadow-lg mt-1"
+              disabled={isSaving}
+              className="w-full text-black font-black uppercase italic tracking-widest text-xs sm:text-sm py-3 sm:py-3.5 rounded-lg bg-[#E9C349] hover:bg-[#FFF9D2] transition-colors duration-300 shadow-lg mt-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Push To Local Feed
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Processing...
+                </>
+              ) : (
+                "Push To Live Feed"
+              )}
             </button>
           </motion.form>
 
@@ -358,59 +469,75 @@ export default function NewsAdminPanel() {
             </h2>
 
             <div className="flex flex-col gap-3 max-h-[400px] lg:max-h-[770px] overflow-y-auto pr-0.5 no-scrollbar">
-              {newsList.map((item) => (
-                <div
-                  key={item.id}
-                  className={`border p-3 rounded-xl bg-[#121212]/40 backdrop-blur-sm flex gap-3 sm:gap-3.5 items-center justify-between relative overflow-hidden ${
-                    item.featured ? "border-[#E9C349]" : "border-white/10"
-                  }`}
-                >
-                  <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-lg overflow-hidden shrink-0 bg-neutral-900 border border-white/5">
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt=""
-                        fill
-                        unoptimized={item.image.startsWith("blob:")}
-                        sizes="56px"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-neutral-800 flex items-center justify-center text-[9px]" />
-                    )}
-                  </div>
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-20 gap-3 text-gray-500">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#E9C349]" />
+                  <span className="text-xs font-bold uppercase tracking-widest">
+                    Synchronizing...
+                  </span>
+                </div>
+              ) : newsList.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 gap-2 text-gray-600 border border-dashed border-white/5 rounded-xl">
+                  <FileText className="w-8 h-8 opacity-20" />
+                  <span className="text-xs font-bold uppercase tracking-widest">
+                    No articles found
+                  </span>
+                </div>
+              ) : (
+                newsList.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`border p-3 rounded-xl bg-[#121212]/40 backdrop-blur-sm flex gap-3 sm:gap-3.5 items-center justify-between relative overflow-hidden ${
+                      item.featured ? "border-[#E9C349]" : "border-white/10"
+                    }`}
+                  >
+                    <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-lg overflow-hidden shrink-0 bg-neutral-900 border border-white/5">
+                      {item.image ? (
+                        <Image
+                          src={item.image}
+                          alt=""
+                          fill
+                          unoptimized={item.image.startsWith("blob:")}
+                          sizes="56px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-neutral-800 flex items-center justify-center text-[9px]" />
+                      )}
+                    </div>
 
-                  <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase">
-                      <span className="text-[#E9C349]">{item.category}</span>
-                      <span className="w-1 h-1 bg-gray-600 rounded-full" />
-                      <span className="text-gray-400 font-mono">
-                        {item.date}
+                    <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1.5 text-[8px] font-black uppercase">
+                        <span className="text-[#E9C349]">{item.category}</span>
+                        <span className="w-1 h-1 bg-gray-600 rounded-full" />
+                        <span className="text-gray-400 font-mono">
+                          {item.date}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-xs sm:text-sm uppercase italic text-gray-100 truncate pr-1">
+                        {item.title}
+                      </h4>
+                      <span className="text-[8px] sm:text-[9px] font-mono text-gray-500 truncate block mt-0.5">
+                        path: /news/{item.slug}
                       </span>
                     </div>
-                    <h4 className="font-bold text-xs sm:text-sm uppercase italic text-gray-100 truncate pr-1">
-                      {item.title}
-                    </h4>
-                    <span className="text-[8px] sm:text-[9px] font-mono text-gray-500 truncate block mt-0.5">
-                      path: /news/{item.slug}
-                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(item.id)}
+                      className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/40 transition-colors shrink-0"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </button>
+
+                    {item.featured && (
+                      <div className="absolute top-0 right-0 bg-[#E9C349] text-black font-black uppercase text-[6px] tracking-widest px-1.5 py-0.5 rounded-bl shadow-sm">
+                        Hero
+                      </div>
+                    )}
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(item.id)}
-                    className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/40 transition-colors shrink-0"
-                  >
-                    <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </button>
-
-                  {item.featured && (
-                    <div className="absolute top-0 right-0 bg-[#E9C349] text-black font-black uppercase text-[6px] tracking-widest px-1.5 py-0.5 rounded-bl shadow-sm">
-                      Hero
-                    </div>
-                  )}
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>
