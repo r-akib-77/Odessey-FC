@@ -26,23 +26,23 @@ const containerVariants: Variants = {
 };
 
 const cardFadeVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 150, damping: 20 },
+    transition: { type: "spring", stiffness: 100, damping: 20 },
   },
 };
 
 const pulseVsVariants: Variants = {
   animate: {
-    scale: [1, 1.08, 1],
-    boxShadow: [
-      "0 0 12px rgba(233, 195, 73, 0.2)",
-      "0 0 25px rgba(233, 195, 73, 0.5)",
-      "0 0 12px rgba(233, 195, 73, 0.2)",
-    ],
-    transition: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+    scale: [1, 1.05, 1],
+    // boxShadow: [
+    //   "0 0 12px rgba(233, 195, 73, 0.2)",
+    //   "0 0 25px rgba(233, 195, 73, 0.5)",
+    //   "0 0 12px rgba(233, 195, 73, 0.2)",
+    // ],
+    transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
   },
 };
 
@@ -79,9 +79,11 @@ export default function MatchHub() {
   };
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-4 py-16 md:py-24 overflow-hidden relative">
-      {/* Dynamic Background Light Rings */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[80vw] h-[40vh] md:h-[50vh] bg-[#E9C349]/5 blur-[80px] md:blur-[130px] rounded-full pointer-events-none z-0" />
+    <main className="min-h-screen w-full text-white px-4 py-16 md:py-24 overflow-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
+      {/* Dynamic Background Light Rings - REMOVED for smoothness as requested */}
+      {/* <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[80vw] h-[40vh] md:h-[50vh] bg-[#E9C349]/5 blur-[80px] md:blur-[130px] rounded-full pointer-events-none z-0" /> */}
 
       <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col gap-8 md:gap-10 md:w-[80vw]">
         {/* Section Heading */}
@@ -112,7 +114,7 @@ export default function MatchHub() {
             {/* Mobile Responsive Versus Card (Stacks on mobile, row on tablet/desktop) */}
             <motion.div
               variants={cardFadeVariants}
-              className="bg-[#050505]/50 backdrop-blur-2xl p-6 md:p-8 rounded-2xl border border-[#E9C349]/15 shadow-xl flex flex-col items-center justify-center relative py-8 sm:py-10"
+              className="bg-[#050505]/50 backdrop-blur-2xl mobile-low-blur p-6 md:p-8 rounded-2xl border border-[#E9C349]/15 shadow-xl flex flex-col items-center justify-center relative py-8 sm:py-10"
             >
               <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-6 sm:gap-2 relative">
                 {/* Home Team: Odyssey */}
@@ -155,7 +157,7 @@ export default function MatchHub() {
             {/* Stadium Field Logistics & Booking Protocols */}
             <motion.div
               variants={cardFadeVariants}
-              className="bg-[#050505]/40 backdrop-blur-2xl p-5 md:p-6 rounded-2xl border border-[#E9C349]/15 shadow-md"
+              className="bg-[#050505]/40 backdrop-blur-2xl mobile-low-blur p-5 md:p-6 rounded-2xl border border-[#E9C349]/15 shadow-md"
             >
               <h3 className="text-[#E9C349] font-black italic text-sm sm:text-base uppercase tracking-wide mb-4 flex items-center gap-2">
                 <Swords className="w-4 h-4 text-[#E9C349]" /> Pitch Battle Terms
@@ -203,7 +205,7 @@ export default function MatchHub() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 bg-[#050505]/40 backdrop-blur-2xl p-5 md:p-10 rounded-3xl border border-[#E9C349]/15 shadow-xl relative w-full"
+            className="lg:col-span-7 bg-[#050505]/40 backdrop-blur-2xl mobile-low-blur p-5 md:p-10 rounded-3xl border border-[#E9C349]/15 shadow-xl relative w-full"
           >
             {!submitted ? (
               <form

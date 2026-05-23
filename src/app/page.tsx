@@ -140,10 +140,12 @@ export default function HomePage() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.8),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed w-full min-h-screen text-white overflow-x-hidden">
+    <main className="w-full min-h-screen text-white overflow-x-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.8),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* --- HERO SECTION --- */}
       <section className="relative flex flex-col justify-center px-5 sm:px-6 pt-28 pb-12 md:pt-40 md:pb-16 min-h-[85vh] md:min-h-[75vh]">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[50%] bg-[#E9C349]/15 blur-[80px] rounded-full pointer-events-none md:hidden z-0" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[50%] bg-[#E9C349]/15 blur-[80px] hidden md:block rounded-full pointer-events-none md:hidden z-0" />
 
         <motion.div
           className="relative z-10 w-full md:w-[80%] mx-auto flex flex-col items-center md:items-start text-center md:text-left"
@@ -157,7 +159,12 @@ export default function HomePage() {
             variants={headlineVariants}
             className="font-extrabold italic text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter uppercase mb-4 leading-[0.9] sm:leading-none bg-gradient-to-r from-[#E9C349] via-[#FFF9D2] to-[#E9C349] text-transparent bg-clip-text drop-shadow-2xl bg-[length:200%_auto] pr-4 pb-2"
             animate={{ backgroundPosition: ["200% center", "-200% center"] }}
-            transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 8, // Slower animation for less CPU usage
+              ease: "linear",
+              // Disable on mobile/reduced motion if needed, but slowing it down helps
+            }}
           >
             {HERO_CONTENT.headline[0]} <br className="hidden sm:block" />
             {HERO_CONTENT.headline[1]}
@@ -246,7 +253,7 @@ export default function HomePage() {
 
       {/* --- FAQ SECTION --- */}
       <section className="w-full md:w-[70%] mx-auto px-6 py-10 md:py-24 relative z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#E9C349]/10 blur-[120px] rounded-full pointer-events-none -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#E9C349]/10 blur-[120px] hidden md:block rounded-full pointer-events-none -z-10" />
 
         <motion.div
           variants={fadeUpVariants}
@@ -270,7 +277,7 @@ export default function HomePage() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
-          className="w-full bg-[#050505]/60 backdrop-blur-xl rounded-3xl border border-[#E9C349]/15 shadow-[0_0_40px_rgba(233,195,73,0.05)] overflow-hidden"
+          className="w-full bg-[#050505]/60 backdrop-blur-xl mobile-low-blur rounded-3xl border border-[#E9C349]/15 shadow-[0_0_40px_rgba(233,195,73,0.05)] overflow-hidden"
         >
           {/* STRING FIX APPLIED HERE: collapsible="true" */}
           <SafeAccordion

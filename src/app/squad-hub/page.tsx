@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import Image from "next/image";
 import { Shirt, Star } from "lucide-react";
@@ -197,8 +197,15 @@ export default function SquadHub() {
   };
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-2.5 sm:px-4 py-12 md:py-24 overflow-hidden relative">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[80vw] h-[40vh] bg-[#E9C349]/5 blur-[80px] md:blur-[100px] rounded-full pointer-events-none z-0" />
+    <main className="min-h-screen w-full text-white px-2.5 sm:px-4 py-12 md:py-24 overflow-hidden relative">
+      {/* Performance-optimized fixed background */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none relative"
+        style={{ willChange: 'transform' }}
+      />
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[80vw] h-[40vh] bg-[#E9C349]/5 blur-[80px] md:blur-[100px] hidden md:block rounded-full pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col gap-6 md:gap-10 md:w-[80vw]">
         {/* Section Heading */}
@@ -267,7 +274,7 @@ export default function SquadHub() {
                       src={player.image}
                       alt={player.name}
                       fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       priority={player.id <= 4}
                       className={`object-cover object-top transition-all duration-500 ease-out group-hover/card:scale-105 ${
                         isActivated ? "scale-105" : ""
@@ -327,7 +334,7 @@ export default function SquadHub() {
 
                     {/* Stats Tray */}
                     <div
-                      className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1.5 sm:gap-0 transition-transform duration-300 ease-out border-t border-white/10 pt-2 sm:pt-3 bg-black/75 backdrop-blur-md rounded-lg sm:rounded-xl px-2.5 sm:px-3 py-2 ${
+                      className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1.5 sm:gap-0 transition-transform duration-300 ease-out border-t border-white/10 pt-2 sm:pt-3 bg-black/75 backdrop-blur-md mobile-low-blur rounded-lg sm:rounded-xl px-2.5 sm:px-3 py-2 ${
                         isActivated
                           ? "translate-y-0"
                           : "translate-y-28 group-hover/card:translate-y-0"

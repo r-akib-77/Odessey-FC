@@ -44,9 +44,11 @@ export default async function BlogArticlePage({ params }: PageProps) {
   }
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.92),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-3 sm:px-6 py-6 sm:py-12 md:py-20 relative">
+    <main className="min-h-screen w-full text-white px-3 sm:px-6 py-6 sm:py-12 md:py-20 relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.92),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Ambient Visual Background Elements */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[85vw] h-[35vh] bg-[#E9C349]/5 blur-[60px] md:blur-[100px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[85vw] h-[35vh] bg-[#E9C349]/5 blur-[60px] md:blur-[100px] hidden md:block rounded-full pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-4xl w-full mx-auto flex flex-col gap-5 sm:gap-8">
         {/* Navigation Return Elements */}
@@ -94,6 +96,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
             alt={article.title}
             fill
             priority
+            quality={85}
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -106,7 +109,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
           </p>
 
           {/* Guarantee Informational Badge Tray */}
-          <div className="my-2 sm:my-4 p-3 sm:p-4 rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-sm flex gap-3 sm:gap-4 items-start">
+          <div className="my-2 sm:my-4 p-3 sm:p-4 rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-sm mobile-low-blur flex gap-3 sm:gap-4 items-start">
             <Trophy className="w-7 h-7 sm:w-8 sm:h-8 text-[#E9C349] shrink-0 p-1 bg-[#E9C349]/10 rounded-lg border border-[#E9C349]/20" />
             <div className="min-w-0">
               <h4 className="font-black uppercase italic text-[10px] sm:text-xs tracking-wider text-[#E9C349] mb-0.5">

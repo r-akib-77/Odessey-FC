@@ -46,7 +46,9 @@ export default function PrivacyPolicy() {
   ];
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-4 py-16 md:py-24 overflow-hidden relative">
+    <main className="min-h-screen w-full text-white px-4 py-16 md:py-24 overflow-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Background ambient spotlight glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[80vw] h-[40vh] bg-[#E9C349]/5 blur-[100px] rounded-full pointer-events-none z-0" />
 

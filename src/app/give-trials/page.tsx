@@ -91,8 +91,11 @@ export default function GiveTrials() {
   };
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-4 py-24 overflow-hidden relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[60vh] bg-[#E9C349]/5 blur-[140px] rounded-full pointer-events-none z-0" />
+    <main className="min-h-screen w-full text-white px-4 py-24 overflow-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
+      {/* Background Ambient Spotlight - REMOVED for smoothness */}
+      {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[60vh] bg-[#E9C349]/5 blur-[140px] rounded-full pointer-events-none z-0" /> */}
 
       <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col gap-12 md:w-[80vw]">
         {/* Section Heading */}
@@ -123,7 +126,7 @@ export default function GiveTrials() {
           >
             <motion.div
               variants={cardFadeVariants}
-              className="bg-[#050505]/40 backdrop-blur-2xl p-6 rounded-2xl border border-[#E9C349]/15 shadow-md"
+              className="bg-[#050505]/40 backdrop-blur-2xl mobile-low-blur p-6 rounded-2xl border border-[#E9C349]/15 shadow-md"
             >
               <h3 className="text-[#E9C349] font-black italic text-lg uppercase tracking-wide mb-4 flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-[#E9C349]" /> Trial Briefing
@@ -141,7 +144,7 @@ export default function GiveTrials() {
 
             <motion.div
               variants={cardFadeVariants}
-              className="bg-[#050505]/40 backdrop-blur-2xl p-6 rounded-2xl border border-[#E9C349]/15 shadow-md"
+              className="bg-[#050505]/40 backdrop-blur-2xl mobile-low-blur p-6 rounded-2xl border border-[#E9C349]/15 shadow-md"
             >
               <h3 className="text-white font-black italic text-lg uppercase tracking-wide mb-4 flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-[#E9C349]" /> Core Requirements
@@ -174,7 +177,7 @@ export default function GiveTrials() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 bg-[#050505]/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-[#E9C349]/15 shadow-xl relative"
+            className="lg:col-span-7 bg-[#050505]/40 backdrop-blur-2xl mobile-low-blur p-6 md:p-10 rounded-3xl border border-[#E9C349]/15 shadow-xl relative"
           >
             {!submitted ? (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -258,7 +261,7 @@ export default function GiveTrials() {
                           initial="hidden"
                           animate="show"
                           exit="exit"
-                          className="absolute left-0 right-0 top-[calc(100%+4px)] bg-[#0f0f0f]/95 border border-[#E9C349]/20 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden z-50 flex flex-col"
+                          className="absolute left-0 right-0 top-[calc(100%+4px)] bg-[#0f0f0f]/95 border border-[#E9C349]/20 rounded-xl shadow-2xl backdrop-blur-xl mobile-low-blur overflow-hidden z-50 flex flex-col"
                         >
                           {positions.map((pos) => (
                             <button
@@ -304,7 +307,7 @@ export default function GiveTrials() {
                           initial="hidden"
                           animate="show"
                           exit="exit"
-                          className="absolute left-0 right-0 top-[calc(100%+4px)] bg-[#0f0f0f]/95 border border-[#E9C349]/20 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden z-50 flex flex-col"
+                          className="absolute left-0 right-0 top-[calc(100%+4px)] bg-[#0f0f0f]/95 border border-[#E9C349]/20 rounded-xl shadow-2xl backdrop-blur-xl mobile-low-blur overflow-hidden z-50 flex flex-col"
                         >
                           {feet.map((foot) => (
                             <button

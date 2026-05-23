@@ -24,7 +24,7 @@ export default function Footer() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.1 }}
-      className="relative z-10 w-full border-t border-[#E9C349]/20 bg-black/80 backdrop-blur-xl pt-12 pb-8   text-white"
+      className="relative z-10 w-full border-t border-[#E9C349]/20 bg-black/80 backdrop-blur-xl mobile-low-blur pt-12 pb-8   text-white"
     >
       {/* Container switches from stacked column on mobile to a multi-column row on tablet/desktop */}
       <div className="w-full md:w-[80%] mx-auto px-6 flex flex-col md:grid md:grid-cols-3 justify-between items-center md:items-start gap-10 md:gap-8 text-center md:text-left">

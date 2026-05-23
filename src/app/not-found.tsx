@@ -49,7 +49,9 @@ const floatingBallVariants: Variants = {
 
 export default function NotFoundPage() {
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex items-center justify-center text-white px-4 overflow-hidden relative ">
+    <main className="min-h-screen w-full flex items-center justify-center text-white px-4 overflow-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Cinematic Pitch Backdrop Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] md:w-[80vw] h-[40vh] md:h-[50vh] bg-[#E9C349]/10 blur-[100px] md:blur-[130px] rounded-full pointer-events-none z-0" />
 

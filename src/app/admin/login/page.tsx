@@ -50,7 +50,9 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.92),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full flex items-center justify-center p-4">
+    <main className="min-h-screen w-full flex items-center justify-center p-4 relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.92),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Background Overlay */}
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       

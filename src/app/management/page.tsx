@@ -69,18 +69,18 @@ const slideVariants: Variants = {
   enter: (direction: number) => ({
     x: direction > 0 ? 140 : -140,
     opacity: 0,
-    filter: "blur(6px)",
+    // filter: "blur(6px)", // Removed for mobile performance
   }),
   center: {
     x: 0,
     opacity: 1,
-    filter: "blur(0px)",
+    // filter: "blur(0px)", // Removed for mobile performance
     transition: { type: "spring", stiffness: 240, damping: 22 },
   },
   exit: (direction: number) => ({
     x: direction < 0 ? 140 : -140,
     opacity: 0,
-    filter: "blur(6px)",
+    // filter: "blur(6px)", // Removed for mobile performance
     transition: { ease: "easeInOut", duration: 0.2 },
   }),
 };
@@ -126,9 +126,11 @@ export default function Management() {
   const currentMember = MANAGEMENT_MEMBERS[activeIndex];
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white flex items-center justify-center px-4 py-24 overflow-hidden relative">
+    <main className="min-h-screen w-full text-white flex items-center justify-center px-4 py-24 overflow-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Background ambient spotlight glow matching the main theme */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[60vh] bg-[#E9C349]/5 blur-[140px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[60vh] bg-[#E9C349]/5 blur-[140px] hidden md:block rounded-full pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-5xl w-full flex flex-col gap-6 md:w-[80vw]">
         {/* Section Heading */}
@@ -151,10 +153,10 @@ export default function Management() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
-          className="w-full bg-[#050505]/40 backdrop-blur-2xl rounded-3xl border border-[#E9C349]/15 shadow-[0_0_50px_rgba(233,195,73,0.02)] p-6 md:p-14 relative overflow-hidden group"
+          className="w-full bg-[#050505]/40 backdrop-blur-2xl mobile-low-blur rounded-3xl border border-[#E9C349]/15 shadow-[0_0_50px_rgba(233,195,73,0.02)] p-6 md:p-14 relative overflow-hidden group"
         >
           {/* Subtle Ambient internal card flare mapping */}
-          <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#E9C349]/5 blur-[60px] rounded-full pointer-events-none" />
+          <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#E9C349]/5 blur-[60px] hidden md:block rounded-full pointer-events-none" />
 
           {/* Dynamic Responsive Row Wrapper with Drag Gesture tracking */}
           <motion.div
@@ -186,6 +188,8 @@ export default function Management() {
                       alt={currentMember.name}
                       fill
                       priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      quality={85}
                       className="object-cover object-top transition-transform duration-700 ease-out group-hover/img:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />

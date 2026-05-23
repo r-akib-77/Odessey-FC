@@ -51,14 +51,14 @@ export default function Navbar() {
 
   return (
     // Changed classes here: Made it sticky on mobile with a blurred background, reverting to relative/transparent on md screens
-    <header className="w-full px-5 py-4 mx-auto z-50 sticky top-0 bg-black/80 backdrop-blur-md border-b border-[#E9C349]/10 md:relative md:bg-transparent md:backdrop-blur-none md:border-none md:w-[80%] md:px-0 md:mt-4">
+    <header className="w-full px-5 py-4 mx-auto z-50 sticky top-0 bg-black/80 backdrop-blur-md mobile-low-blur border-b border-[#E9C349]/10 md:relative md:bg-transparent md:backdrop-blur-none md:border-none md:w-[80%] md:px-0 md:mt-4">
       <div className="flex justify-between items-center">
         {/* Logo Section */}
         <div>
           <motion.h1
             className="font-extrabold italic text-2xl md:text-4xl tracking-tighter label bg-gradient-to-r from-[#E9C349] via-[#FFF9D2] to-[#E9C349] text-transparent bg-clip-text drop-shadow-sm bg-[length:200%_auto] pr-2 cursor-pointer"
             animate={{ backgroundPosition: ["200% center", "-200% center"] }}
-            transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+            transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
             whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
             whileTap={{ scale: 0.95 }}
           >
@@ -108,7 +108,7 @@ export default function Navbar() {
 
             <SheetContent
               side="right"
-              className="bg-black/40 backdrop-blur-2xl border-l border-[#E9C349]/30 flex flex-col pt-24 shadow-[0_0_40px_rgba(233,195,73,0.1)]"
+              className="bg-black/40 backdrop-blur-2xl mobile-low-blur border-l border-[#E9C349]/30 flex flex-col pt-24 shadow-[0_0_40px_rgba(233,195,73,0.1)]"
             >
               <motion.nav
                 variants={containerVariants}

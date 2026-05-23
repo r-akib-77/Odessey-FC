@@ -69,7 +69,9 @@ export default function NewsHub() {
 
   if (isLoading) {
     return (
-      <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.88),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white flex flex-col items-center justify-center gap-4">
+      <main className="min-h-screen w-full text-white flex flex-col items-center justify-center gap-4 relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.88),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
         <Loader2 className="w-10 h-10 animate-spin text-[#E9C349]" />
         <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-500">
           Loading Media Hub...
@@ -79,9 +81,11 @@ export default function NewsHub() {
   }
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.88),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-3 sm:px-6 py-8 md:py-24 overflow-hidden relative">
+    <main className="min-h-screen w-full text-white px-3 sm:px-6 py-8 md:py-24 overflow-hidden relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.88),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[95vw] md:w-[70vw] h-[40vh] bg-[#E9C349]/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[95vw] md:w-[70vw] h-[40vh] bg-[#E9C349]/5 blur-[80px] md:blur-[120px] hidden md:block rounded-full pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col gap-6 md:gap-14">
         {/* ==========================================
@@ -120,6 +124,7 @@ export default function NewsHub() {
                 alt={featuredPost.title}
                 fill
                 priority
+                quality={85}
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent sm:via-black/40 z-10" />
@@ -195,6 +200,7 @@ export default function NewsHub() {
                     src={post.image}
                     alt={post.title}
                     fill
+                    quality={80}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                   />

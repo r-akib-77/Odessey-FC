@@ -226,7 +226,9 @@ export default function NewsAdminPanel() {
   };
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.92),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat bg-fixed min-h-screen w-full text-white px-3 sm:px-6 py-6 sm:py-12 md:py-16 relative">
+    <main className="min-h-screen w-full text-white px-3 sm:px-6 py-6 sm:py-12 md:py-16 relative">
+      {/* Fixed Background Image for all devices */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.92),rgba(0,0,0,0.98)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
       {/* Responsive Glow Aura */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[95vw] md:w-[75vw] h-[35vh] bg-[#E9C349]/5 blur-[60px] md:blur-[80px] rounded-full pointer-events-none z-0" />
 

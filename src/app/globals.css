@@ -139,6 +139,27 @@ h6,
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Mobile Performance Optimizations */
+  @media (max-width: 768px) {
+    .mobile-bg-scroll {
+      background-attachment: scroll !important;
+    }
+    .mobile-low-blur {
+      backdrop-filter: blur(4px) !important;
+      -webkit-backdrop-filter: blur(4px) !important;
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
