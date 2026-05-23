@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     const info = await db
       .prepare(
-        "INSERT INTO news (title, slug, desc, date, category, image, featured) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO news (title, slug, \"desc\", date, category, image, featured) VALUES (?, ?, ?, ?, ?, ?, ?)"
       )
       .bind(title, slug, desc, date, category, image, featured || 0)
       .run();

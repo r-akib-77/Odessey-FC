@@ -18,6 +18,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Image from "next/image";
+import { optimizeImage, getFileHash } from "@/lib/utils";
 
 const panelVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
@@ -133,8 +134,16 @@ export default function NewsAdminPanel() {
 
       // 1. Upload image if a new file is selected
       if (selectedFile) {
+        // Optimize image before upload to save storage
+        const optimizedBlob = await optimizeImage(selectedFile);
+        
+        // Generate a deterministic filename based on content hash
+        const hash = await getFileHash(optimizedBlob);
+        const filename = `${hash}.webp`;
+
         const uploadFormData = new FormData();
-        uploadFormData.append("file", selectedFile);
+        uploadFormData.append("file", optimizedBlob, filename);
+        uploadFormData.append("filename", filename);
 
         const uploadRes = await fetch("/api/admin/upload", {
           method: "POST",

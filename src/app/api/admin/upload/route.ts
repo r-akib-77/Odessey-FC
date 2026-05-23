@@ -29,13 +29,14 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
+    const customFilename = formData.get("filename") as string | null;
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Generate unique filename
-    const filename = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+    // Use custom filename if provided, otherwise generate one
+    const filename = customFilename || `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
     const fileBuffer = await file.arrayBuffer();
 
     // Upload to R2 via S3 API
