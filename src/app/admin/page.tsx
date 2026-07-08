@@ -474,7 +474,7 @@ export default function NewsAdminPanel() {
           </motion.form>
 
           <Link
-            className="w-full text-black font-black uppercase italic tracking-widest text-xs sm:text-sm py-3 sm:py-3.5 rounded-lg bg-[#E9C349] hover:bg-[#FFF9D2] transition-colors duration-300 shadow-lg mt-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full md:hidden  text-black font-black uppercase italic tracking-widest text-xs sm:text-sm py-3 sm:py-3.5 rounded-lg bg-[#E9C349] hover:bg-[#FFF9D2] transition-colors duration-300 shadow-lg mt-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             href={"/admin/edit-odyssey-players"}
           >
             Edit Players
