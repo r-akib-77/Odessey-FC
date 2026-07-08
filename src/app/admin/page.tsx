@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { optimizeImage, getFileHash } from "@/lib/utils";
+import Link from "next/link";
 
 const panelVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
@@ -136,7 +137,7 @@ export default function NewsAdminPanel() {
       if (selectedFile) {
         // Optimize image before upload to save storage
         const optimizedBlob = await optimizeImage(selectedFile);
-        
+
         // Generate a deterministic filename based on content hash
         const hash = await getFileHash(optimizedBlob);
         const filename = `${hash}.webp`;
@@ -471,6 +472,13 @@ export default function NewsAdminPanel() {
               )}
             </button>
           </motion.form>
+
+          <Link
+            className="w-full text-black font-black uppercase italic tracking-widest text-xs sm:text-sm py-3 sm:py-3.5 rounded-lg bg-[#E9C349] hover:bg-[#FFF9D2] transition-colors duration-300 shadow-lg mt-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            href={"/admin/edit-odyssey-players"}
+          >
+            Edit Players
+          </Link>
 
           {/* MONITOR LIST LOG (Stacked below form container inputs on mobile) */}
           <div className="lg:col-span-5 flex flex-col gap-3.5 sm:gap-4 w-full mt-4 lg:mt-0">
