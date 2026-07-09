@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id;
+    const { id } = await context.params;
     const body = await request.json();
     const { name, number, position, role, foot, image } = body;
 
@@ -24,9 +24,9 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id;
+    const { id } = await context.params;
     const db = process.env.DB as any;
     if (!db) {
       return NextResponse.json({ error: "Database binding not found" }, { status: 500 });
