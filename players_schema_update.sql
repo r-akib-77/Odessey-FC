@@ -1,0 +1,9 @@
+CREATE TABLE players (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  number INTEGER NOT NULL,
+  position TEXT NOT NULL,
+  role TEXT NOT NULL,
+  foot TEXT NOT NULL,
+  image TEXT NOT NULL
+);

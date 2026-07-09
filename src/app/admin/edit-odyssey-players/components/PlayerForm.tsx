@@ -24,6 +24,7 @@ export default function PlayerForm({
   clear,
 }: PlayerFormProps) {
   const [player, setPlayer] = useState(defaultPlayer);
+  const [file, setFile] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -53,37 +54,51 @@ export default function PlayerForm({
     }));
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-  //   setLoading(true);
+    try {
+      let imageUrl = player.image;
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const uploadRes = await fetch("/api/admin/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadData.url) {
+          imageUrl = uploadData.url;
+        }
+      }
 
-  //   try {
-  //     const url = editing ? `/api/players/${editing.id}` : "/api/players";
+      const payload = { ...player, image: imageUrl };
+      const url = editing ? `/api/players/${editing.id}` : "/api/players";
+      const method = editing ? "PATCH" : "POST";
 
-  //     const method = editing ? "PATCH" : "POST";
+      await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-  //     await fetch(url, {
-  //       method,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(player),
-  //     });
-
-  //     refresh();
-
-  //     clear();
-
-  //     setPlayer(defaultPlayer);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      refresh();
+      clear();
+      setPlayer(defaultPlayer);
+      setFile(null);
+    } catch (error) {
+      console.error("Error saving player:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <form
-      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       className="
 mx-auto
 w-full
@@ -309,13 +324,14 @@ outline-none
             accept="image/*"
             className="hidden"
             onChange={(e) => {
-              const file = e.target.files?.[0];
+              const selectedFile = e.target.files?.[0];
 
-              if (!file) return;
+              if (!selectedFile) return;
 
+              setFile(selectedFile);
               setPlayer((prev) => ({
                 ...prev,
-                image: URL.createObjectURL(file),
+                image: URL.createObjectURL(selectedFile),
               }));
             }}
           />
@@ -329,6 +345,7 @@ outline-none
             onClick={() => {
               clear();
               setPlayer(defaultPlayer);
+              setFile(null);
             }}
             className="h-14 w-full rounded-2xl border border-zinc-700 bg-zinc-900 font-semibold text-white hover:bg-zinc-800 sm:w-40"
           >

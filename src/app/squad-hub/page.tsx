@@ -1,150 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import Image from "next/image";
 import { Shirt, Star } from "lucide-react";
-
-// ==========================================
-// 1. SQUAD PLAYERS DATA
-// ==========================================
-const SQUAD_PLAYERS = [
-  {
-    id: 1,
-    name: "Khalid",
-    number: 1,
-    position: "Goalkeeper",
-    role: "Captain",
-    foot: "Right",
-    image: "/players/player1.jpeg",
-  },
-  {
-    id: 2,
-    name: "Rakib",
-    number: 7,
-    position: "Forward",
-    role: "V. Captain",
-    foot: "Right",
-    image: "/players/player2.jpeg",
-  },
-  {
-    id: 3,
-    name: "Dipto",
-    number: 10,
-    position: "Forward",
-    role: "Machine",
-    foot: "Ambidextrous",
-    image: "/players/player3.jpeg",
-  },
-  {
-    id: 4,
-    name: "Tazwar Ahmed",
-    number: 8,
-    position: "Midfielder",
-    role: "Playmaker",
-    foot: "Right",
-    image: "/players/player4.jpeg",
-  },
-  {
-    id: 5,
-    name: "Ibrahim",
-    number: 9,
-    position: "Forward",
-    role: "Winger",
-    foot: "Ambidextrous",
-    image: "/players/player5.jpeg",
-  },
-  {
-    id: 6,
-    name: "Sakib",
-    number: 2,
-    position: "Defender",
-    role: "Stopper",
-    foot: "Right",
-    image: "/players/player6.jpeg",
-  },
-  {
-    id: 7,
-    name: "Inan",
-    number: 6,
-    position: "Defender",
-    role: "Fear",
-    foot: "Right",
-    image: "/players/player7.jpeg",
-  },
-  {
-    id: 8,
-    name: "Ashraful",
-    number: 4,
-    position: "Defender",
-    role: "Control",
-    foot: "Right",
-    image: "/players/player8.jpeg",
-  },
-  {
-    id: 9,
-    name: "Khalifah",
-    number: 11,
-    position: "Midfielder",
-    role: "Box-to-Box",
-    foot: "Ambidextrous",
-    image: "/players/player9.jpeg",
-  },
-  {
-    id: 10,
-    name: "Nayem",
-    number: 22,
-    position: "Midfielder",
-    role: "Deep PM",
-    foot: "Ambidextrous",
-    image: "/players/player10.jpeg",
-  },
-  {
-    id: 11,
-    name: "Arzon",
-    number: 12,
-    position: "Goalkeeper",
-    role: "Keeper",
-    foot: "Right",
-    image: "/players/player11.jpeg",
-  },
-  {
-    id: 12,
-    name: "Waseq",
-    number: 5,
-    position: "Defender",
-    role: "CB",
-    foot: "Right",
-    image: "/players/player12.jpeg",
-  },
-  {
-    id: 13,
-    name: "Nabil",
-    number: 2,
-    position: "Defender",
-    role: "CB",
-    foot: "Right",
-    image: "/players/player13.jpeg",
-  },
-  {
-    id: 14,
-    name: "Samiul",
-    number: 16,
-    position: "Midfielder",
-    role: "Playmaker",
-    foot: "Right",
-    image: "/players/player14.jpeg",
-  },
-  {
-    id: 15,
-    name: "Siyam",
-    number: 17,
-    position: "Midfielder",
-    role: "Engine ",
-    foot: "Ambidextrous",
-    image: "/players/player15.jpeg",
-  },
-];
 
 // ==========================================
 // 2. ANIMATION VARIANTS
@@ -171,13 +30,32 @@ const cardVariants: Variants = {
 export default function SquadHub() {
   const [filter, setFilter] = useState<string>("All");
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const [players, setPlayers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPlayers() {
+      try {
+        const res = await fetch("/api/players");
+        if (res.ok) {
+          const data = await res.json();
+          setPlayers(data);
+        }
+      } catch (error) {
+        console.error("Error fetching players:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPlayers();
+  }, []);
 
   const categories = ["All", "Forward", "Midfielder", "Defender", "Goalkeeper"];
 
   const filteredPlayers =
     filter === "All"
-      ? SQUAD_PLAYERS
-      : SQUAD_PLAYERS.filter((player) => player.position === filter);
+      ? players
+      : players.filter((player) => player.position === filter);
 
   // Check if the currently active card is still present in the filtered array list
   const isStillVisible =
