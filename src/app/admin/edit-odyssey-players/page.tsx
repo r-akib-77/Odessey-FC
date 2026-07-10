@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Player } from "./types/player";
 import PlayerForm from "./components/PlayerForm";
 import PlayerTable from "./components/PlayerTable";
@@ -14,6 +14,10 @@ export default function AdminPlayers() {
     const data = await res.json();
     setPlayers(data);
   }
+
+  useEffect(() => {
+    loadPlayers();
+  }, []);
 
   return (
     <main className="min-h-screen p-1 bg-zinc-950 text-white ">

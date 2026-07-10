@@ -15,7 +15,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
     await db.prepare(
       "UPDATE players SET name = ?, number = ?, position = ?, role = ?, foot = ?, image = ? WHERE id = ?"
-    ).bind(name, number, position, role, foot, image, id).run();
+    ).bind(name, number, position, role, foot, image, Number(id)).run();
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -32,7 +32,7 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
       return NextResponse.json({ error: "Database binding not found" }, { status: 500 });
     }
 
-    await db.prepare("DELETE FROM players WHERE id = ?").bind(id).run();
+    await db.prepare("DELETE FROM players WHERE id = ?").bind(Number(id)).run();
 
     return NextResponse.json({ success: true });
   } catch (error) {
