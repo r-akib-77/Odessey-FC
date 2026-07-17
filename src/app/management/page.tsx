@@ -34,7 +34,7 @@ const MANAGEMENT_MEMBERS = [
     id: 4,
     name: "Rakibul Hasan",
     role: "Squad Management",
-    image: "/manager6.jpeg",
+    image: "/manager61.jpeg",
     bio: "Dedicated to player development and locker room chemistry. He tracks squad fitness metrics, manages player availability, and fosters the disciplined mindset needed to secure tournament victories.",
   },
   {
@@ -48,7 +48,7 @@ const MANAGEMENT_MEMBERS = [
     id: 6,
     name: "Ifthikhar Fayeez Inaan",
     role: "Supervisor",
-    image: "/manager9.jpeg",
+    image: "/manager91.jpeg",
     bio: "Providing strategic oversight across club activities while ensuring organizational standards are consistently maintained. He supervises operations, supports management decisions, and helps create a professional environment for every member of Odyssey FC.",
   },
   {
