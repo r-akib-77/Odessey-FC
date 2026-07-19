@@ -152,49 +152,26 @@ export default function GirlsSquadHub() {
         </motion.div>
         {/* ================= Position Filters ================= */}
 
-        <div className="w-full overflow-x-auto border-b border-pink-400/10 pb-3 no-scrollbar">
-          <div className="flex min-w-max gap-3">
-            {categories.map((cat) => {
-              const active = filter === cat;
-
-              return (
-                <motion.button
-                  key={cat}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    setActiveCardId(null);
-                    setFilter(cat);
-                  }}
-                  className={`relative overflow-hidden rounded-full border px-5 py-2.5 text-xs font-extrabold uppercase tracking-[0.25em] transition-all duration-300
-
-                  ${
-                    active
-                      ? "border-pink-400 bg-gradient-to-r from-pink-500 to-fuchsia-500 text-white shadow-[0_0_25px_rgba(236,72,153,.45)]"
-                      : "border-white/10 bg-white/5 text-gray-300 hover:border-pink-300/40 hover:bg-pink-500/10 hover:text-white"
-                  }
-                  `}
-                >
-                  {active && (
-                    <motion.div
-                      layoutId="girls-filter"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-fuchsia-500"
-                      transition={{
-                        type: "spring",
-                        stiffness: 250,
-                        damping: 28,
-                      }}
-                    />
-                  )}
-
-                  <span className="relative z-10">
-                    {cat === "All" ? "All Players" : `${cat}s`}
-                  </span>
-                </motion.button>
-              );
-            })}
-          </div>
-        </div>
+    <div className="w-full overflow-x-auto no-scrollbar border-b border-pink-400/10 pb-2 px-1.5">
+  <div className="flex gap-2 sm:gap-4 min-w-max">
+    {categories.map((cat) => (
+      <button
+        key={cat}
+        onClick={() => {
+          setActiveCardId(null);
+          setFilter(cat);
+        }}
+        className={`px-4 sm:px-5 py-2 rounded-full font-extrabold italic text-[11px] sm:text-xs uppercase tracking-widest transition-all duration-300 focus:outline-none border ${
+          filter === cat
+            ? "bg-pink-500 text-white border-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.35)]"
+            : "bg-white/5 text-gray-300 border-white/10 hover:text-white hover:bg-white/10 hover:border-pink-400/40"
+        }`}
+      >
+        {cat === "All" ? "All Players" : `${cat}s`}
+      </button>
+    ))}
+  </div>
+</div>
 
         {/* ================= Squad Grid ================= */}
 
@@ -228,16 +205,15 @@ export default function GirlsSquadHub() {
                       exit="exit"
                       whileHover={{
                         y: -8,
-                        scale: 1.02,
+                        
                       }}
                       onClick={() => handleCardTouch(player.id)}
                       className="
-group relative
-aspect-[0.72]
-sm:aspect-[3/4]
+group/card relative
+aspect-[3/4]
 cursor-pointer
 overflow-hidden
-rounded-2xl sm:rounded-3xl
+rounded-xl sm:rounded-2xl
 border border-pink-400/15
 bg-[#17101B]/90
 shadow-xl sm:shadow-2xl
@@ -258,7 +234,7 @@ hover:shadow-[0_0_35px_rgba(236,72,153,.25)]
                           sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
                           className={`object-cover object-top transition-all duration-500
 
-                        ${isActivated ? "scale-105" : "group-hover:scale-105"}
+                        ${isActivated ? "scale-105" : "group-hover/card:scale-105"}
                         `}
                         />
 
@@ -277,14 +253,14 @@ hover:shadow-[0_0_35px_rgba(236,72,153,.25)]
                       {/* ================= Giant Jersey Number ================= */}
 
                       <span
-                        className={`absolute right-3 top-2 z-10 select-none font-mono text-[3.5rem]
-sm:text-[4.5rem]
-lg:text-[6rem] font-black italic leading-none transition-all duration-500
+                        className={`absolute right-3 top-2 z-10 select-none font-mono text-[4.5rem]
+sm:text-[6rem]
+ font-black italic leading-none transition-all duration-500
 
                       ${
                         isActivated
                           ? "text-pink-400/10"
-                          : "text-white/5 group-hover:text-pink-400/10"
+                          : "text-white/5 group-hover/card:text-pink-400/10"
                       }
                       `}
                       >
@@ -298,9 +274,9 @@ lg:text-[6rem] font-black italic leading-none transition-all duration-500
                         <div
                           className={`flex flex-col gap-1 transition-transform duration-300 ease-out
 ${
-  isActivated
-    ? "-translate-y-[82px] sm:-translate-y-[60px] lg:-translate-y-[105px] xl:-translate-y-[120px]"
-    : "translate-y-0 group-hover:-translate-y-[82px] sm:group-hover:-translate-y-[60px] lg:group-hover:-translate-y-[105px] xl:group-hover:-translate-y-[120px]"
+ isActivated
+  ? "translate-y-[-78px] sm:translate-y-[-48px]"
+  : "translate-y-0 group-hover/card:translate-y-[-78px] sm:group-hover/card:translate-y-[-48px]"
 }
 `}
                         >
@@ -314,9 +290,9 @@ ${
 flex-1
 break-words
 pr-1
-text-[13px]
+text-sm
 sm:text-lg
-lg:text-2xl
+md:text-2xl
 font-black
 italic
 uppercase
@@ -331,7 +307,7 @@ drop-shadow-lg
                             <div
                               className={`flex h-7 w-7
 sm:h-8 sm:w-8
-lg:h-10 lg:w-10 shrink-0 items-center justify-center rounded-full border bg-black/80 font-mono text-[10px]
+lg:h-10 lg:w-10 shrink-0 items-center justify-center rounded border bg-black/80 font-mono text-[10px]
 sm:text-xs
 lg:text-sm font-black shadow-lg transition-all duration-300
 
@@ -349,8 +325,8 @@ lg:text-sm font-black shadow-lg transition-all duration-300
                         {/* ================= Stats Tray ================= */}
 
                         <div
-                          className={`absolute bottom-4 left-4 right-4 rounded-2xl border border-pink-400/10 bg-black/75 px-3 py-2
-sm:px-4 sm:py-3 backdrop-blur-xl transition-transform duration-300
+                          className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 rounded-lg sm:rounded-xl border-t border-pink-400/10  bg-black/75 px-3 py-2
+sm:px-4 sm:py-3 bg-black/75   transition-transform duration-300
 
                         ${
                           isActivated
@@ -402,7 +378,7 @@ sm:max-w-[110px] truncate text-xs font-black uppercase italic text-white"
                       ${
                         isActivated
                           ? "opacity-100"
-                          : "opacity-0 group-hover:opacity-100"
+                          : "opacity-0 group-hover/card:opacity-100"
                       }
                       `}
                       />
@@ -421,7 +397,7 @@ sm:max-w-[110px] truncate text-xs font-black uppercase italic text-white"
             className="mx-1 rounded-3xl border border-pink-400/10 bg-[#17101B]/80 px-8 py-20 text-center backdrop-blur-xl"
           >
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-pink-500/20 to-fuchsia-500/20">
-              <Shirt className="h-10 w-10 text-pink-400" />
+              <Shirt className="w-6 h-6 sm:w-8 sm:h-8 text-pink-400" />
             </div>
 
             <h3 className="mb-3 text-xl font-black uppercase tracking-wider text-white">
