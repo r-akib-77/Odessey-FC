@@ -54,6 +54,7 @@ export default function GiveTrials() {
     fullName: "",
     phone: "",
     age: "",
+    team: "Boys",
     position: "Forward / Winger",
     preferredFoot: "Right",
     prevExperience: "",
@@ -61,6 +62,7 @@ export default function GiveTrials() {
 
   const [posOpen, setPosOpen] = useState(false);
   const [footOpen, setFootOpen] = useState(false);
+  const [teamOpen, setTeamOpen] = useState(false);
 
   const positions = [
     "Forward / Winger",
@@ -69,19 +71,25 @@ export default function GiveTrials() {
     "Goalkeeper",
   ];
   const feet = ["Right", "Left", "Ambidextrous"];
+  const teams = ["Boys", "Girls"];
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const whatsappNumber = "8801676500977";
 
     const messageText =
-      `🏆 *NEW TRIAL APPLICATION - ODYSSEY FC* 🏆\n\n` +
-      `👤 *Full Name:* ${formData.fullName}\n` +
-      `📞 *Contact:* ${formData.phone}\n` +
-      `🎂 *Age:* ${formData.age} years old\n` +
-      `🏃‍♂️ *Position:* ${formData.position}\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `⚽ *ODYSSEY FC TRIAL APPLICATION* ⚽\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n\n` +
+      `👤 *Player:* ${formData.fullName}\n` +
+      `📞 *Phone:* ${formData.phone}\n` +
+      `🎂 *Age:* ${formData.age}\n` +
+      `👥 *Team:* ${formData.team}\n` +
+      `🥅 *Position:* ${formData.position}\n` +
       `🦶 *Preferred Foot:* ${formData.preferredFoot}\n\n` +
-      `📝 *Experience & Background:* \n${formData.prevExperience || "None provided."}`;
+      `📝 *Football Experience*\n` +
+      `${formData.prevExperience || "No previous experience provided."}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━`;
 
     const encodedMessage = encodeURIComponent(messageText);
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
@@ -196,6 +204,58 @@ export default function GiveTrials() {
                     placeholder="e.g. Jamal Hossain"
                     className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm font-medium text-white placeholder-gray-600 focus:outline-none focus:border-[#E9C349]/50 focus:bg-white/10 transition-all duration-300"
                   />
+                </div>
+                <div className="flex flex-col gap-2 relative">
+                  <label className="text-xs uppercase font-black tracking-widest text-gray-400 italic">
+                    Team
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTeamOpen(!teamOpen);
+                      setPosOpen(false);
+                      setFootOpen(false);
+                    }}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm font-medium text-white flex justify-between items-center hover:bg-white/10 transition-all duration-300 focus:outline-none focus:border-[#E9C349]/50"
+                  >
+                    <span>{formData.team}</span>
+
+                    <ChevronDown
+                      className={`w-4 h-4 text-[#E9C349] transition-transform duration-300 ${
+                        teamOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {teamOpen && (
+                      <motion.div
+                        variants={dropdownVariants}
+                        initial="hidden"
+                        animate="show"
+                        exit="exit"
+                        className="absolute left-0 right-0 top-[calc(100%+4px)] bg-[#0f0f0f]/95 border border-[#E9C349]/20 rounded-xl shadow-2xl backdrop-blur-xl mobile-low-blur overflow-hidden z-50 flex flex-col"
+                      >
+                        {teams.map((team) => (
+                          <button
+                            key={team}
+                            type="button"
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                team,
+                              });
+                              setTeamOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-[#E9C349] hover:text-black transition-colors font-medium"
+                          >
+                            {team}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Phone & Age */}

@@ -54,7 +54,7 @@ export default function Footer() {
           </h4>
           <div className="flex flex-col gap-2.5 items-center md:items-start">
             <Link
-              href="/squad-hub"
+              href="/squad-hub/boys"
               className="text-gray-400 hover:text-[#E9C349] transition-colors text-sm font-medium uppercase tracking-wide"
             >
               Squad Hub

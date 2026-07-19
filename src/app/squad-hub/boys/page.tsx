@@ -5,6 +5,81 @@ import { motion, AnimatePresence, Variants } from "framer-motion";
 import Image from "next/image";
 import { Shirt, Star } from "lucide-react";
 
+const demoPlayers: Player[] = [
+  {
+    id: 1,
+    name: "Ava Johnson",
+    image: "/girls/player1.jpg",
+    number: 9,
+    position: "Forward",
+    foot: "Right",
+    role: "Captain",
+  },
+  {
+    id: 2,
+    name: "Sophia Williams",
+    image: "/girls/player2.jpg",
+    number: 11,
+    position: "Forward",
+    foot: "Left",
+    role: "Striker",
+  },
+  {
+    id: 3,
+    name: "Emma Brown",
+    image: "/girls/player3.jpg",
+    number: 10,
+    position: "Midfielder",
+    foot: "Both",
+    role: "Playmaker",
+  },
+  {
+    id: 4,
+    name: "Olivia Davis",
+    image: "/girls/player4.jpg",
+    number: 8,
+    position: "Midfielder",
+    foot: "Right",
+    role: "Vice Captain",
+  },
+  {
+    id: 5,
+    name: "Charlotte Wilson",
+    image: "/girls/player5.jpg",
+    number: 6,
+    position: "Defender",
+    foot: "Left",
+    role: "Center Back",
+  },
+  {
+    id: 6,
+    name: "Amelia Moore",
+    image: "/girls/player6.jpg",
+    number: 4,
+    position: "Defender",
+    foot: "Right",
+    role: "Full Back",
+  },
+  {
+    id: 7,
+    name: "Mia Taylor",
+    image: "/girls/player7.jpg",
+    number: 5,
+    position: "Defender",
+    foot: "Both",
+    role: "Sweeper",
+  },
+  {
+    id: 8,
+    name: "Harper Anderson",
+    image: "/girls/player8.jpg",
+    number: 1,
+    position: "Goalkeeper",
+    foot: "Right",
+    role: "Goalkeeper",
+  },
+];
+
 // ==========================================
 // 2. ANIMATION VARIANTS
 // ==========================================
@@ -77,9 +152,9 @@ export default function SquadHub() {
   return (
     <main className="min-h-screen w-full text-white px-2.5 sm:px-4 py-12 md:py-24 overflow-hidden relative">
       {/* Performance-optimized fixed background */}
-      <div 
+      <div
         className="fixed inset-0 z-0 pointer-events-none relative"
-        style={{ willChange: 'transform' }}
+        style={{ willChange: "transform" }}
       />
       {/* Fixed Background Image for all devices */}
       <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.85),rgba(0,0,0,0.99)),url('/backgroundPicHero.png')] bg-cover bg-center bg-no-repeat" />
