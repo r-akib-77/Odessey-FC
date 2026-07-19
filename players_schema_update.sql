@@ -5,5 +5,6 @@ CREATE TABLE players (
   position TEXT NOT NULL,
   role TEXT NOT NULL,
   foot TEXT NOT NULL,
-  image TEXT NOT NULL
+  image TEXT NOT NULL,
+  team TEXT NOT NULL DEFAULT 'Boys'
 );

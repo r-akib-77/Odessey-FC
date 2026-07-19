@@ -111,7 +111,7 @@ export default function SquadHub() {
   useEffect(() => {
     async function fetchPlayers() {
       try {
-        const res = await fetch("/api/players");
+        const res = await fetch("/api/players?team=Boys");
         if (res.ok) {
           const data = await res.json();
           setPlayers(data);

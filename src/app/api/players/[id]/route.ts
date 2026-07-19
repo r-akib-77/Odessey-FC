@@ -6,16 +6,22 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   try {
     const { id } = await context.params;
     const body = await request.json();
-    const { name, number, position, role, foot, image } = body;
+    const { name, number, position, role, foot, image, team } = body;
 
     const db = process.env.DB as any;
     if (!db) {
       return NextResponse.json({ error: "Database binding not found" }, { status: 500 });
     }
 
+    try {
+      await db.prepare("ALTER TABLE players ADD COLUMN team TEXT DEFAULT 'Boys'").run();
+    } catch (e) {
+      // Ignore if column already exists
+    }
+
     await db.prepare(
-      "UPDATE players SET name = ?, number = ?, position = ?, role = ?, foot = ?, image = ? WHERE id = ?"
-    ).bind(name, number, position, role, foot, image, Number(id)).run();
+      "UPDATE players SET name = ?, number = ?, position = ?, role = ?, foot = ?, image = ?, team = ? WHERE id = ?"
+    ).bind(name, number, position, role, foot, image, team || "Boys", Number(id)).run();
 
     return NextResponse.json({ success: true });
   } catch (error) {

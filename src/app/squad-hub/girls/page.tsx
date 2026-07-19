@@ -65,7 +65,7 @@ export default function GirlsSquadHub() {
   useEffect(() => {
     async function fetchPlayers() {
       try {
-        const res = await fetch("/api/girls-players");
+        const res = await fetch("/api/players?team=Girls");
 
         if (!res.ok) return;
 
