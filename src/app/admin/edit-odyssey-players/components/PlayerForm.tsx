@@ -22,11 +22,12 @@ interface PlayerFormProps {
   clear: () => void;
 }
 
-const defaultPlayer: Omit<Player, "id"> = {
+const defaultPlayer = {
   name: "",
   number: 0,
   team: "Boys",
   position: "Forward",
+  role: "",
   foot: "Right",
   image: "",
 };
@@ -61,6 +62,7 @@ export default function PlayerForm({
         number: editing.number,
         team: editing.team,
         position: editing.position,
+        role: editing.role,
         foot: editing.foot,
         image: editing.image,
       });
@@ -323,6 +325,7 @@ export default function PlayerForm({
               </div>
             </div>
           </motion.div>
+
           {/* FOOTBALL DETAILS */}
 
           <motion.div
@@ -374,6 +377,38 @@ export default function PlayerForm({
                   <option>Left</option>
                   <option>Ambidextrous</option>
                 </select>
+              </div>
+
+              {/* Role */}
+
+              <div>
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-zinc-300">
+                  <Star size={16} />
+                  Player Role
+                </label>
+
+                <input
+                  required
+                  name="role"
+                  value={player.role}
+                  onChange={handleChange}
+                  placeholder="Captain"
+                  className="
+                  h-14
+                  w-full
+                  rounded-2xl
+                  border
+                  border-zinc-700
+                  bg-zinc-900/60
+                  px-5
+                  text-white
+                  outline-none
+                  transition
+                  focus:border-yellow-500
+                  focus:ring-4
+                  focus:ring-yellow-500/20
+                  "
+                />
               </div>
             </div>
           </motion.div>
@@ -561,9 +596,11 @@ export default function PlayerForm({
 
               setFile(selectedFile);
 
+              const preview = URL.createObjectURL(selectedFile);
+
               setPlayer((prev) => ({
                 ...prev,
-                image: URL.createObjectURL(selectedFile),
+                image: preview,
               }));
             }}
           />

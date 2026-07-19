@@ -7,7 +7,7 @@ export interface Player {
 
   position: "Forward" | "Midfielder" | "Defender" | "Goalkeeper";
 
-  role?: string;
+  role: string;
 
   foot: "Left" | "Right" | "Ambidextrous";
 
