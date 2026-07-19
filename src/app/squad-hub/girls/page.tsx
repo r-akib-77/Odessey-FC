@@ -93,6 +93,15 @@ export default function GirlsSquadHub() {
     activeCardId !== null &&
     filteredPlayers.some((player) => player.id === activeCardId);
 
+  useEffect(() => {
+  if (
+    activeCardId !== null &&
+    !filteredPlayers.some((p) => p.id === activeCardId)
+  ) {
+    setActiveCardId(null);
+  }
+}, [filteredPlayers, activeCardId]);
+
   const handleCardTouch = (id: number) => {
     setActiveCardId((prev) => (prev === id ? null : id));
   };
@@ -187,7 +196,7 @@ export default function GirlsSquadHub() {
                   <motion.div
                     key={index}
                     variants={cardVariants}
-                    className="aspect-[3/4] animate-pulse rounded-3xl border border-pink-400/10 bg-[#17101B]"
+                  className="aspect-[3/4] animate-pulse rounded-xl sm:rounded-2xl border border-pink-400/10 bg-[#17101B]"
                   />
                 ))
               : filteredPlayers.map((player) => {
@@ -197,175 +206,127 @@ export default function GirlsSquadHub() {
 
                   return (
                     <motion.div
-                      key={player.id}
-                      layout="position"
-                      variants={cardVariants}
-                      initial="hidden"
-                      animate="show"
-                      exit="exit"
-                      whileHover={{
-                        y: -8,
-                        
-                      }}
-                      onClick={() => handleCardTouch(player.id)}
-                      className="
-group/card relative
-aspect-[3/4]
-cursor-pointer
-overflow-hidden
-rounded-xl sm:rounded-2xl
-border border-pink-400/15
-bg-[#17101B]/90
-shadow-xl sm:shadow-2xl
-backdrop-blur-xl
-transition-all duration-300
-hover:border-pink-400
-hover:shadow-[0_0_35px_rgba(236,72,153,.25)]
-"
-                    >
-                      {/* ================= Player Image ================= */}
+  key={player.id}
+  variants={cardVariants}
+  layout="position"
+  initial="hidden"
+  animate="show"
+  exit="exit"
+  whileHover={{
+    y: -6,
+    scale: 1.02,
+  }}
+  onClick={() => handleCardTouch(player.id)}
+  className="group/card rounded-xl sm:rounded-2xl border border-pink-400/15 hover:border-pink-400/50 shadow-2xl relative aspect-[3/4] overflow-hidden bg-[#17101B] transition-all duration-300 cursor-pointer select-none"
+>
+  {/* Image */}
+<div className="absolute inset-0 w-full h-full relative">
+    <Image
+      src={player.image}
+      alt={player.name}
+      fill
+      priority={player.id <= 4}
+      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+      className={`object-cover object-top transition-all duration-500 ease-out ${
+        isActivated ? "scale-105" : ""
+      } group-hover/card:scale-105`}
+    />
 
-                      <div className="absolute inset-0">
-                        <Image
-                          src={player.image}
-                          alt={player.name}
-                          fill
-                          priority={player.id <= 4}
-                          sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
-                          className={`object-cover object-top transition-all duration-500
+    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+  </div>
 
-                        ${isActivated ? "scale-105" : "group-hover/card:scale-105"}
-                        `}
-                        />
+  {/* Captain */}
+  {player.role.toLowerCase().includes("captain") && (
+    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-gradient-to-r from-pink-500 to-fuchsia-500 text-white text-[8px] sm:text-[9px] uppercase font-black px-1.5 py-0.5 sm:px-2 rounded shadow-lg tracking-wider flex items-center gap-1 z-20">
+      <Star className="w-2 sm:w-2.5 h-2 sm:h-2.5 fill-current" />
+      {player.role}
+    </div>
+  )}
 
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#090509] via-black/35 to-transparent" />
-                      </div>
-
-                      {/* ================= Captain Badge ================= */}
-
-                      {player.role.toLowerCase().includes("captain") && (
-                        <div className="absolute left-3 top-3 z-20 flex items-center gap-1 rounded-full bg-gradient-to-r from-pink-500 to-fuchsia-500 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white shadow-xl">
-                          <Star className="h-3 w-3 fill-current" />
-                          {player.role}
-                        </div>
-                      )}
-
-                      {/* ================= Giant Jersey Number ================= */}
-
-                      <span
-                        className={`absolute right-3 top-2 z-10 select-none font-mono text-[4.5rem]
-sm:text-[6rem]
- font-black italic leading-none transition-all duration-500
-
-                      ${
-                        isActivated
-                          ? "text-pink-400/10"
-                          : "text-white/5 group-hover/card:text-pink-400/10"
-                      }
-                      `}
-                      >
-                        {player.number}
-                      </span>
-                   
-
-               {/* ================= Player Content ================= */}
-
-<div className="absolute inset-0 z-20 flex flex-col justify-end overflow-hidden p-3 sm:p-5 lg:p-6">
-  {/* Player Info */}
-
-  <div
-    className={`flex flex-col gap-1 transition-transform duration-300 ease-out ${
+  {/* Watermark Number */}
+  <span
+    className={`absolute right-2 sm:right-4 top-1 sm:top-2 text-[4.5rem] sm:text-[6rem] font-black italic font-mono leading-none select-none transition-all duration-500 z-10 ${
       isActivated
-        ? "translate-y-[-78px] sm:translate-y-[-48px]"
-        : "translate-y-0 group-hover/card:translate-y-[-78px] sm:group-hover/card:translate-y-[-48px]"
+        ? "text-pink-400/10"
+        : "text-white/5 group-hover/card:text-pink-400/10"
     }`}
   >
-    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.35em] text-pink-300">
-      {player.position}
-    </span>
+    {player.number}
+  </span>
 
-    <div className="flex items-end justify-between gap-2">
-      <h3
-        className="
-          flex-1
-          break-words
-          pr-1
-          text-sm
-          sm:text-lg
-          md:text-2xl
-          font-black
-          italic
-          uppercase
-          leading-tight
-          text-white
-          drop-shadow-lg
-        "
-      >
-        {player.name}
-      </h3>
+  {/* Content */}
+  <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-5 z-20 overflow-hidden">
+    <div
+      className={`transition-transform duration-300 ease-out flex flex-col gap-0.5 sm:gap-1 w-full ${
+        isActivated
+          ? "translate-y-[-78px] sm:translate-y-[-48px]"
+          : "translate-y-0 group-hover/card:translate-y-[-78px] sm:group-hover/card:translate-y-[-48px]"
+      }`}
+    >
+      <span className="text-pink-300 font-black tracking-widest text-[8px] sm:text-[10px] uppercase block select-none">
+        {player.position}
+      </span>
 
-      <div
-        className={`flex h-7 w-7 sm:h-8 sm:w-8 lg:h-10 lg:w-10 shrink-0 items-center justify-center rounded border bg-black/80 font-mono text-[10px] sm:text-xs lg:text-sm font-black shadow-lg transition-all duration-300 ${
-          isActivated
-            ? "border-pink-400 text-pink-300"
-            : "border-pink-400/30 text-pink-300 group-hover:border-pink-400"
-        }`}
-      >
-        #{player.number}
+      <div className="flex items-end justify-between gap-2 w-full">
+        <h3 className="font-black text-sm sm:text-lg md:text-2xl uppercase italic tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] leading-tight whitespace-normal break-words flex-1 min-w-0 pr-1">
+          {player.name}
+        </h3>
+
+        <div
+          className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-black/80 flex items-center justify-center font-mono font-black text-[10px] sm:text-xs shadow-md shrink-0 transition-all duration-300 mb-0.5 border ${
+            isActivated
+              ? "border-pink-400 text-pink-300"
+              : "border-pink-400/30 text-pink-300 group-hover/card:border-pink-400"
+          }`}
+        >
+          #{player.number}
+        </div>
+      </div>
+    </div>
+
+    {/* Stats */}
+    <div
+      className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1.5 sm:gap-0 transition-transform duration-300 ease-out border-t border-pink-400/10 pt-2 sm:pt-3 bg-black/75 backdrop-blur-md rounded-lg sm:rounded-xl px-2.5 sm:px-3 py-2 ${
+        isActivated
+          ? "translate-y-0"
+          : "translate-y-28 group-hover/card:translate-y-0"
+      }`}
+    >
+      <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-start border-b border-white/5 sm:border-none pb-1 sm:pb-0 min-w-0">
+        <span className="text-[8px] sm:text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+          FOOT
+        </span>
+
+        <span className="text-[10px] sm:text-xs font-black uppercase text-pink-300 italic whitespace-nowrap pr-1">
+          {player.foot === "Left"
+            ? "Left 🦶"
+            : player.foot === "Right"
+              ? "Right 🦶"
+              : "Dual ⚡"}
+        </span>
+      </div>
+
+      <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-end min-w-0">
+        <span className="text-[8px] sm:text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+          ROLE
+        </span>
+
+        <span className="text-[10px] sm:text-xs font-black text-white uppercase italic whitespace-nowrap pr-1 max-w-[100px] sm:max-w-[110px] truncate">
+          {player.role}
+        </span>
       </div>
     </div>
   </div>
 
-  {/* ================= Stats Tray ================= */}
-
-
-<div
-  className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 rounded-lg sm:rounded-xl border-t border-pink-400/10 bg-black/75 px-3 py-2 sm:px-4 sm:py-3 transition-transform duration-300 ${
-    isActivated
-      ? "translate-y-0"
-      : "translate-y-32 group-hover/card:translate-y-0"
-  }`}
->
-  <div className="flex flex-col gap-2">
-    {/* Foot */}
-    <div className="flex items-center justify-between">
-      <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
-        Foot
-      </span>
-
-      <span className="text-xs font-black uppercase italic text-pink-300">
-        {player.foot === "Left"
-          ? "Left 🦶"
-          : player.foot === "Right"
-            ? "Right 🦶"
-            : "Dual ⚡"}
-      </span>
-    </div>
-
-    {/* Role */}
-    <div className="flex items-center justify-between">
-      <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
-        Role
-      </span>
-
-      <span className="max-w-[95px] truncate text-right text-xs font-black uppercase italic text-white">
-        {player.role}
-      </span>
-    </div>
-  </div>
-</div>
-          </div>      
-
-                     {/* ================= Hover Accent ================= */}
-
-<div
-  className={`absolute left-0 right-0 top-0 z-30 h-[3px] bg-gradient-to-r from-pink-500 via-fuchsia-400 to-pink-500 transition-opacity duration-300 ${
-    isActivated
-      ? "opacity-100"
-      : "opacity-0 group-hover/card:opacity-100"
-  }`}
-/>
-                    </motion.div>
+  {/* Top Accent */}
+  <div
+    className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-pink-500 via-fuchsia-400 to-pink-500 transition-opacity duration-300 z-30 ${
+      isActivated
+        ? "opacity-100"
+        : "opacity-0 group-hover/card:opacity-100"
+    }`}
+  />
+</motion.div>
                   );
                 })}
           </AnimatePresence>
