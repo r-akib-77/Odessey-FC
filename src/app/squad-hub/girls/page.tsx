@@ -198,7 +198,7 @@ export default function GirlsSquadHub() {
 
         {/* ================= Squad Grid ================= */}
 
-        < <motion.div
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="show"
