@@ -5,6 +5,16 @@ import { motion, AnimatePresence, Variants } from "framer-motion";
 import Image from "next/image";
 import { Shirt, Star } from "lucide-react";
 
+type Player = {
+  id: number;
+  name: string;
+  image: string;
+  number: number;
+  position: string;
+  foot: "Left" | "Right" | "Both" | "Ambidextrous" | string;
+  role: string;
+};
+
 const demoPlayers: Player[] = [
   {
     id: 1,
