@@ -317,15 +317,18 @@ sm:text-[6rem]
   </div>
 
   {/* ================= Stats Tray ================= */}
-  <div
+
+
+<div
   className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 rounded-lg sm:rounded-xl border-t border-pink-400/10 bg-black/75 px-3 py-2 sm:px-4 sm:py-3 transition-transform duration-300 ${
     isActivated
       ? "translate-y-0"
       : "translate-y-32 group-hover/card:translate-y-0"
   }`}
 >
-  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    <div className="flex flex-col">
+  <div className="flex flex-col gap-2">
+    {/* Foot */}
+    <div className="flex items-center justify-between">
       <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
         Foot
       </span>
@@ -339,18 +342,17 @@ sm:text-[6rem]
       </span>
     </div>
 
-    <div className="flex flex-col sm:items-end">
+    {/* Role */}
+    <div className="flex items-center justify-between">
       <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
         Role
       </span>
 
-      <p className="text-xs font-black uppercase italic text-white sm:text-right">
+      <span className="max-w-[95px] truncate text-right text-xs font-black uppercase italic text-white">
         {player.role}
-      </p>
+      </span>
     </div>
   </div>
-</div>
-
 </div>
                
 
