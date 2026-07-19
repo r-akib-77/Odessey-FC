@@ -82,7 +82,6 @@ const itemVariants: Variants = {
   hover: {
     scale: 1.15,
     rotate: -3,
-    textShadow: "0px 0px 12px rgba(233,195,73,.8)",
     transition: {
       type: "spring",
       stiffness: 400,
@@ -104,7 +103,13 @@ export default function Navbar() {
 const isGirlsPage = pathname.startsWith("/squad-hub/girls");
 
   return (
-    <header className={`w-full px-5 py-4 mx-auto z-50 sticky top-0 backdrop-blur-md mobile-low-blur md:relative md:backdrop-blur-none md:border-none md:w-[80%] md:px-0 md:mt-4 transition-all duration-300 ${   isGirlsPage     ? "bg-[#140814]/85 border-b border-pink-400/20"     : "bg-black/80 border-b border-[#E9C349]/10" } md:bg-transparent`}>
+    <header 
+      className={`w-full px-5 py-4 mx-auto z-50 sticky top-0 backdrop-blur-md mobile-low-blur md:relative md:backdrop-blur-none md:w-[80%] md:px-0 md:mt-4 transition-all duration-300 ${
+    isGirlsPage
+      ? "bg-[#140814]/85 border-b border-pink-400/20 md:bg-[#140814]/70 md:rounded-2xl md:px-6"
+      : "bg-black/80 border-b border-[#E9C349]/10 md:bg-transparent md:border-none"
+  }`}
+      >
       <div className="flex justify-between items-center">
         {/* ================= Logo ================= */}
 
@@ -147,14 +152,20 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
                   onMouseEnter={() => setDesktopDropdown(true)}
                   onMouseLeave={() => setDesktopDropdown(false)}
                 >
-                  <button className=`flex items-center gap-1 text-white hover:text-${isGirlsPage ? "pink-400" : "[#E9C349]"} font-semibold uppercase tracking-wide transition-colors duration-200 label`>
+                 <button
+  className={`flex items-center gap-1 font-semibold uppercase tracking-wide transition-colors duration-200 label ${
+    isGirlsPage
+      ? "text-white hover:text-pink-400"
+      : "text-white hover:text-[#E9C349]"
+  }`}
+>
                     {link.title}
 
                     <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-300 ${
-                        desktopDropdown ? "rotate-180" : ""
-                      }`}
-                    />
+  className={`h-4 w-4 transition-transform duration-300 ${
+    isGirlsPage ? "text-pink-400" : "text-[#E9C349]"
+  } ${desktopDropdown ? "rotate-180" : ""}`}
+/>
                   </button>
 
                   <AnimatePresence>
@@ -178,13 +189,21 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
                         transition={{
                           duration: 0.2,
                         }}
-                        className="absolute left-0 top-full mt-3 w-56 overflow-hidden rounded-xl border border-[#E9C349]/20 bg-black/90 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,.45)]"
+                     className={`absolute left-0 top-full mt-3 w-56 overflow-hidden rounded-xl backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,.45)] ${
+  isGirlsPage
+    ? "border border-pink-400/20 bg-[#140814]/95"
+    : "border border-[#E9C349]/20 bg-black/90"
+}`}
                       >
                         {link.children.map((item) => (
                           <Link
                             key={item.title}
                             href={item.url}
-                            className="block px-5 py-3 text-white font-medium transition-all duration-200 hover:bg-[#E9C349]/10 hover:text-[#E9C349]"
+                            className={`block px-5 py-3 font-medium transition-all duration-200 ${
+  isGirlsPage
+    ? "text-white hover:bg-pink-500/10 hover:text-pink-300"
+    : "text-white hover:bg-[#E9C349]/10 hover:text-[#E9C349]"
+}`}
                           >
                             {item.title}
                           </Link>
@@ -200,10 +219,12 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
               <motion.div
                 key={link.id}
                 whileHover={{
-                  scale: 1.1,
-                  y: -4,
-                  filter: "drop-shadow(0px 4px 8px rgba(233,195,73,0.5))",
-                }}
+  scale: 1.1,
+  y: -4,
+  filter: isGirlsPage
+    ? "drop-shadow(0px 4px 8px rgba(236,72,153,.45))"
+    : "drop-shadow(0px 4px 8px rgba(233,195,73,.5))",
+}}
                 whileTap={{
                   scale: 0.9,
                 }}
@@ -215,7 +236,11 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
               >
                 <Link
                   href={link.url}
-                  className="text-white hover:text-[#E9C349] font-semibold uppercase tracking-wide label transition-colors duration-200"
+                  className={`font-semibold uppercase tracking-wide label transition-colors duration-200 ${
+  isGirlsPage
+    ? "text-white hover:text-pink-400"
+    : "text-white hover:text-[#E9C349]"
+}`}
                 >
                   {link.title}
                 </Link>
@@ -279,7 +304,12 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
                       >
                         <button
                           onClick={() => setMobileDropdown(!mobileDropdown)}
-                          className="flex items-center gap-2 text-white text-3xl font-extrabold uppercase tracking-widest label"
+
+                          className={`flex items-center gap-2 text-3xl font-extrabold uppercase tracking-widest label ${
+  isGirlsPage
+    ? "text-pink-200"
+    : "text-white"
+}`}
                         >
                           {link.title}
 
@@ -291,7 +321,11 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
                               duration: 0.25,
                             }}
                           >
-                            <ChevronDown className="h-6 w-6" />
+                            <ChevronDown
+  className={`h-6 w-6 ${
+    isGirlsPage ? "text-pink-400" : "text-[#E9C349]"
+  }`}
+/>
                           </motion.div>
                         </button>
 
@@ -356,7 +390,11 @@ const isGirlsPage = pathname.startsWith("/squad-hub/girls");
                       <Link
                         href={link.url}
                         onClick={() => setIsOpen(false)}
-                        className="text-white text-3xl font-extrabold uppercase tracking-widest label"
+                       className={`text-3xl font-extrabold uppercase tracking-widest label ${
+  isGirlsPage
+    ? "text-pink-200 hover:text-pink-400"
+    : "text-white hover:text-[#E9C349]"
+}`}
                       >
                         {link.title}
                       </Link>
