@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
-
+import { usePathname } from "next/navigation";
 // Shadcn UI Imports
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -99,15 +99,22 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [desktopDropdown, setDesktopDropdown] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(false);
+  const pathname = usePathname();
+
+const isGirlsPage = pathname.startsWith("/squad-hub/girls");
 
   return (
-    <header className="w-full px-5 py-4 mx-auto z-50 sticky top-0 bg-black/80 backdrop-blur-md mobile-low-blur border-b border-[#E9C349]/10 md:relative md:bg-transparent md:backdrop-blur-none md:border-none md:w-[80%] md:px-0 md:mt-4">
+    <header className={`w-full px-5 py-4 mx-auto z-50 sticky top-0 backdrop-blur-md mobile-low-blur md:relative md:backdrop-blur-none md:border-none md:w-[80%] md:px-0 md:mt-4 transition-all duration-300 ${   isGirlsPage     ? "bg-[#140814]/85 border-b border-pink-400/20"     : "bg-black/80 border-b border-[#E9C349]/10" } md:bg-transparent`}>
       <div className="flex justify-between items-center">
         {/* ================= Logo ================= */}
 
         <div>
           <motion.h1
-            className="font-extrabold italic text-2xl md:text-4xl tracking-tighter label bg-gradient-to-r from-[#E9C349] via-[#FFF9D2] to-[#E9C349] text-transparent bg-clip-text drop-shadow-sm bg-[length:200%_auto] pr-2 cursor-pointer"
+           className={`font-extrabold italic text-2xl md:text-4xl tracking-tighter label bg-gradient-to-r ${
+  isGirlsPage
+    ? "from-pink-400 via-fuchsia-200 to-pink-500"
+    : "from-[#E9C349] via-[#FFF9D2] to-[#E9C349]"
+} text-transparent bg-clip-text drop-shadow-sm bg-[length:200%_auto] pr-2 cursor-pointer`}
             animate={{
               backgroundPosition: ["200% center", "-200% center"],
             }}
@@ -140,7 +147,7 @@ export default function Navbar() {
                   onMouseEnter={() => setDesktopDropdown(true)}
                   onMouseLeave={() => setDesktopDropdown(false)}
                 >
-                  <button className="flex items-center gap-1 text-white hover:text-[#E9C349] font-semibold uppercase tracking-wide transition-colors duration-200 label">
+                  <button className=`flex items-center gap-1 text-white hover:text-${isGirlsPage ? "pink-400" : "[#E9C349]"} font-semibold uppercase tracking-wide transition-colors duration-200 label`>
                     {link.title}
 
                     <ChevronDown
@@ -221,7 +228,12 @@ export default function Navbar() {
 
         <div className="flex items-center md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger className="text-[#E9C349] p-2 focus:outline-none flex items-center justify-center rounded-md hover:bg-white/10 transition-colors z-50">
+            <SheetTrigger 
+              className={`p-2 focus:outline-none flex items-center justify-center rounded-md hover:bg-white/10 transition-colors z-50 ${
+  isGirlsPage ? "text-pink-400" : "text-[#E9C349]"
+}`}
+              
+              >
               <motion.div
                 animate={{
                   rotate: isOpen ? 180 : 0,
@@ -245,7 +257,11 @@ export default function Navbar() {
 
             <SheetContent
               side="right"
-              className="bg-black/40 backdrop-blur-2xl mobile-low-blur border-l border-[#E9C349]/30 flex flex-col pt-24 shadow-[0_0_40px_rgba(233,195,73,0.1)]"
+             className={`flex flex-col pt-24 backdrop-blur-2xl mobile-low-blur shadow-[0_0_40px_rgba(0,0,0,.2)] ${
+  isGirlsPage
+    ? "bg-[#140814]/90 border-l border-pink-400/30"
+    : "bg-black/40 border-l border-[#E9C349]/30"
+}`}
             >
               <motion.nav
                 variants={containerVariants}
@@ -315,7 +331,9 @@ export default function Navbar() {
                                       setIsOpen(false);
                                       setMobileDropdown(false);
                                     }}
-                                    className="text-[#E9C349] text-xl font-semibold uppercase tracking-wide"
+                                    className={`text-xl font-semibold uppercase tracking-wide ${
+  isGirlsPage ? "text-pink-300" : "text-[#E9C349]"
+}`}
                                   >
                                     {item.title}
                                   </Link>
