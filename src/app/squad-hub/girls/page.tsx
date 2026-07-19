@@ -324,52 +324,41 @@ lg:text-sm font-black shadow-lg transition-all duration-300
                         </div>
                         {/* ================= Stats Tray ================= */}
 
-                        <div
-                          className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 rounded-lg sm:rounded-xl border-t border-pink-400/10  bg-black/75 px-3 py-2
-sm:px-4 sm:py-3 bg-black/75   transition-transform duration-300
+                       <div
+  className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 rounded-lg sm:rounded-xl border-t border-pink-400/10 bg-black/75 px-3 py-2 sm:px-4 sm:py-3 transition-transform duration-300 ${
+    isActivated
+      ? "translate-y-0"
+      : "translate-y-32 group-hover/card:translate-y-0"
+  }`}
+>
+  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    {/* Preferred Foot */}
+    <div className="flex flex-col">
+      <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
+        Foot
+      </span>
 
-                        ${
-                          isActivated
-                            ? "translate-y-0"
-                            : "translate-y-32 group-hover:translate-y-0"
-                        }
-                        `}
-                        >
-                          <div className="flex items-center justify-between">
-                            {/* Preferred Foot */}
+      <span className="text-xs font-black uppercase italic text-pink-300">
+        {player.foot === "Left"
+          ? "Left 🦶"
+          : player.foot === "Right"
+            ? "Right 🦶"
+            : "Dual ⚡"}
+      </span>
+    </div>
 
-                            <div className="flex flex-col">
-                              <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
-                                Foot
-                              </span>
+    {/* Role */}
+    <div className="flex flex-col sm:items-end">
+      <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
+        Role
+      </span>
 
-                              <span className="text-xs font-black uppercase italic text-pink-300">
-                                {player.foot === "Left"
-                                  ? "Left 🦶"
-                                  : player.foot === "Right"
-                                    ? "Right 🦶"
-                                    : "Dual ⚡"}
-                              </span>
-                            </div>
-
-                            {/* Role */}
-
-                            <div className="text-right">
-                              <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
-                                Role
-                              </span>
-
-                              <p
-                                className="max-w-[80px]
-sm:max-w-[110px] truncate text-xs font-black uppercase italic text-white"
-                              >
-                                {player.role}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
+      <p className="text-xs font-black uppercase italic text-white sm:text-right">
+        {player.role}
+      </p>
+    </div>
+  </div>
+</div>
                       {/* ================= Hover Accent ================= */}
 
                       <div
