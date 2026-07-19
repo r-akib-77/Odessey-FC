@@ -266,65 +266,58 @@ sm:text-[6rem]
                       >
                         {player.number}
                       </span>
-                      {/* ================= Player Content ================= */}
+                   
 
-                      <div className="absolute inset-0 z-20 flex flex-col justify-end overflow-hidden p-3 sm:p-5 lg:p-6">
-                        {/* Player Info */}
+               {/* ================= Player Content ================= */}
 
-                        <div
-                          className={`flex flex-col gap-1 transition-transform duration-300 ease-out
-${
- isActivated
-  ? "translate-y-[-78px] sm:translate-y-[-48px]"
-  : "translate-y-0 group-hover/card:translate-y-[-78px] sm:group-hover/card:translate-y-[-48px]"
-}
-`}
-                        >
-                          <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.35em] text-pink-300">
-                            {player.position}
-                          </span>
+<div className="absolute inset-0 z-20 flex flex-col justify-end overflow-hidden p-3 sm:p-5 lg:p-6">
+  {/* Player Info */}
 
-                          <div className="flex items-end justify-between gap-2">
-                            <h3
-                              className="
-flex-1
-break-words
-pr-1
-text-sm
-sm:text-lg
-md:text-2xl
-font-black
-italic
-uppercase
-leading-tight
-text-white
-drop-shadow-lg
-"
-                            >
-                              {player.name}
-                            </h3>
+  <div
+    className={`flex flex-col gap-1 transition-transform duration-300 ease-out ${
+      isActivated
+        ? "translate-y-[-78px] sm:translate-y-[-48px]"
+        : "translate-y-0 group-hover/card:translate-y-[-78px] sm:group-hover/card:translate-y-[-48px]"
+    }`}
+  >
+    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.35em] text-pink-300">
+      {player.position}
+    </span>
 
-                            <div
-                              className={`flex h-7 w-7
-sm:h-8 sm:w-8
-lg:h-10 lg:w-10 shrink-0 items-center justify-center rounded border bg-black/80 font-mono text-[10px]
-sm:text-xs
-lg:text-sm font-black shadow-lg transition-all duration-300
+    <div className="flex items-end justify-between gap-2">
+      <h3
+        className="
+          flex-1
+          break-words
+          pr-1
+          text-sm
+          sm:text-lg
+          md:text-2xl
+          font-black
+          italic
+          uppercase
+          leading-tight
+          text-white
+          drop-shadow-lg
+        "
+      >
+        {player.name}
+      </h3>
 
-                            ${
-                              isActivated
-                                ? "border-pink-400 text-pink-300"
-                                : "border-pink-400/30 text-pink-300 group-hover:border-pink-400"
-                            }
-                            `}
-                            >
-                              #{player.number}
-                            </div>
-                          </div>
-                        </div>
-                        {/* ================= Stats Tray ================= */}
+      <div
+        className={`flex h-7 w-7 sm:h-8 sm:w-8 lg:h-10 lg:w-10 shrink-0 items-center justify-center rounded border bg-black/80 font-mono text-[10px] sm:text-xs lg:text-sm font-black shadow-lg transition-all duration-300 ${
+          isActivated
+            ? "border-pink-400 text-pink-300"
+            : "border-pink-400/30 text-pink-300 group-hover:border-pink-400"
+        }`}
+      >
+        #{player.number}
+      </div>
+    </div>
+  </div>
 
-                       <div
+  {/* ================= Stats Tray ================= */}
+  <div
   className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 rounded-lg sm:rounded-xl border-t border-pink-400/10 bg-black/75 px-3 py-2 sm:px-4 sm:py-3 transition-transform duration-300 ${
     isActivated
       ? "translate-y-0"
@@ -332,7 +325,6 @@ lg:text-sm font-black shadow-lg transition-all duration-300
   }`}
 >
   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    {/* Preferred Foot */}
     <div className="flex flex-col">
       <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
         Foot
@@ -347,7 +339,6 @@ lg:text-sm font-black shadow-lg transition-all duration-300
       </span>
     </div>
 
-    {/* Role */}
     <div className="flex flex-col sm:items-end">
       <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-gray-400">
         Role
@@ -359,18 +350,19 @@ lg:text-sm font-black shadow-lg transition-all duration-300
     </div>
   </div>
 </div>
-                      {/* ================= Hover Accent ================= */}
 
-                      <div
-                        className={`absolute left-0 right-0 top-0 z-30 h-[3px] bg-gradient-to-r from-pink-500 via-fuchsia-400 to-pink-500 transition-opacity duration-300
+</div>
+               
 
-                      ${
-                        isActivated
-                          ? "opacity-100"
-                          : "opacity-0 group-hover/card:opacity-100"
-                      }
-                      `}
-                      />
+                     {/* ================= Hover Accent ================= */}
+
+<div
+  className={`absolute left-0 right-0 top-0 z-30 h-[3px] bg-gradient-to-r from-pink-500 via-fuchsia-400 to-pink-500 transition-opacity duration-300 ${
+    isActivated
+      ? "opacity-100"
+      : "opacity-0 group-hover/card:opacity-100"
+  }`}
+/>
                     </motion.div>
                   );
                 })}
