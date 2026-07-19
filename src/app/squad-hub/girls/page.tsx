@@ -140,7 +140,7 @@ export default function GirlsSquadHub() {
           </span>
 
           <h1 className="inline-block bg-gradient-to-r from-pink-400 via-fuchsia-200 to-pink-500 bg-clip-text pr-2 text-4xl font-extrabold italic uppercase tracking-tight text-transparent sm:text-5xl md:text-6xl">
-            Odyssey FC Women
+            Odyssey FC Girls
           </h1>
 
           <p className="mt-3 max-w-2xl text-sm text-gray-300 md:text-base">
@@ -198,7 +198,7 @@ export default function GirlsSquadHub() {
 
         {/* ================= Squad Grid ================= */}
 
-        <motion.div
+        < <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="show"
@@ -231,7 +231,21 @@ export default function GirlsSquadHub() {
                         scale: 1.02,
                       }}
                       onClick={() => handleCardTouch(player.id)}
-                      className="group relative aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl border border-pink-400/15 bg-[#17101B]/90 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-pink-400 hover:shadow-[0_0_35px_rgba(236,72,153,.25)]"
+                      className="
+group relative
+aspect-[0.72]
+sm:aspect-[3/4]
+cursor-pointer
+overflow-hidden
+rounded-2xl sm:rounded-3xl
+border border-pink-400/15
+bg-[#17101B]/90
+shadow-xl sm:shadow-2xl
+backdrop-blur-xl
+transition-all duration-300
+hover:border-pink-400
+hover:shadow-[0_0_35px_rgba(236,72,153,.25)]
+"
                     >
                       {/* ================= Player Image ================= */}
 
@@ -263,7 +277,9 @@ export default function GirlsSquadHub() {
                       {/* ================= Giant Jersey Number ================= */}
 
                       <span
-                        className={`absolute right-3 top-2 z-10 select-none font-mono text-[6rem] font-black italic leading-none transition-all duration-500
+                        className={`absolute right-3 top-2 z-10 select-none font-mono text-[3.5rem]
+sm:text-[4.5rem]
+lg:text-[6rem] font-black italic leading-none transition-all duration-500
 
                       ${
                         isActivated
@@ -276,30 +292,48 @@ export default function GirlsSquadHub() {
                       </span>
                       {/* ================= Player Content ================= */}
 
-                      <div className="absolute inset-0 z-20 flex flex-col justify-end overflow-hidden p-4 sm:p-5">
+                      <div className="absolute inset-0 z-20 flex flex-col justify-end overflow-hidden p-3 sm:p-5 lg:p-6">
                         {/* Player Info */}
 
                         <div
                           className={`flex flex-col gap-1 transition-transform duration-300 ease-out
-
-                        ${
-                          isActivated
-                            ? "-translate-y-[82px] sm:-translate-y-[56px]"
-                            : "translate-y-0 group-hover:-translate-y-[82px] sm:group-hover:-translate-y-[56px]"
-                        }
-                        `}
+${
+  isActivated
+    ? "-translate-y-[82px] sm:-translate-y-[60px] lg:-translate-y-[105px] xl:-translate-y-[120px]"
+    : "translate-y-0 group-hover:-translate-y-[82px] sm:group-hover:-translate-y-[60px] lg:group-hover:-translate-y-[105px] xl:group-hover:-translate-y-[120px]"
+}
+`}
                         >
-                          <span className="text-[9px] font-black uppercase tracking-[0.35em] text-pink-300">
+                          <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.35em] text-pink-300">
                             {player.position}
                           </span>
 
                           <div className="flex items-end justify-between gap-2">
-                            <h3 className="flex-1 break-words pr-1 text-sm font-black italic uppercase leading-tight text-white drop-shadow-lg sm:text-lg md:text-2xl">
+                            <h3
+                              className="
+flex-1
+break-words
+pr-1
+text-[13px]
+sm:text-lg
+lg:text-2xl
+font-black
+italic
+uppercase
+leading-tight
+text-white
+drop-shadow-lg
+"
+                            >
                               {player.name}
                             </h3>
 
                             <div
-                              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-black/80 font-mono text-xs font-black shadow-lg transition-all duration-300
+                              className={`flex h-7 w-7
+sm:h-8 sm:w-8
+lg:h-10 lg:w-10 shrink-0 items-center justify-center rounded-full border bg-black/80 font-mono text-[10px]
+sm:text-xs
+lg:text-sm font-black shadow-lg transition-all duration-300
 
                             ${
                               isActivated
@@ -315,7 +349,8 @@ export default function GirlsSquadHub() {
                         {/* ================= Stats Tray ================= */}
 
                         <div
-                          className={`absolute bottom-4 left-4 right-4 rounded-2xl border border-pink-400/10 bg-black/75 px-4 py-3 backdrop-blur-xl transition-transform duration-300
+                          className={`absolute bottom-4 left-4 right-4 rounded-2xl border border-pink-400/10 bg-black/75 px-3 py-2
+sm:px-4 sm:py-3 backdrop-blur-xl transition-transform duration-300
 
                         ${
                           isActivated
@@ -348,7 +383,10 @@ export default function GirlsSquadHub() {
                                 Role
                               </span>
 
-                              <p className="max-w-[110px] truncate text-xs font-black uppercase italic text-white">
+                              <p
+                                className="max-w-[80px]
+sm:max-w-[110px] truncate text-xs font-black uppercase italic text-white"
+                              >
                                 {player.role}
                               </p>
                             </div>
