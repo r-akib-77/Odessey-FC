@@ -152,10 +152,7 @@ export default function GirlsSquadHub() {
             Odyssey FC Girls
           </h1>
 
-          <p className="mt-3 max-w-2xl text-sm text-gray-300 md:text-base">
-            Meet the talented athletes representing Odyssey FC Women. Strength,
-            teamwork and determination define every match.
-          </p>
+       
 
           <div className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-pink-500 via-fuchsia-400 to-transparent" />
         </motion.div>
