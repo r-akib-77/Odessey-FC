@@ -191,7 +191,7 @@ export default function HomePage() {
 
             <motion.div variants={buttonVariants} className="w-full sm:w-auto">
               <Button className="w-full sm:w-auto bg-transparent border-2 border-[#E9C349] text-white font-extrabold italic text-sm sm:text-base uppercase tracking-widest px-6 py-3.5 sm:py-4 rounded-md hover:bg-[#E9C349] hover:text-black hover:scale-105 hover:shadow-[0_0_20px_rgba(233,195,73,0.5)] transition-all duration-300 bg-black/20 backdrop-blur-sm">
-                <Link href="/squad-hub">Squad Hub</Link>
+                <Link href="/squad-hub/boys">Squad Hub</Link>
               </Button>
             </motion.div>
           </motion.div>
